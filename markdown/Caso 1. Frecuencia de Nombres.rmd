@@ -1,0 +1,88 @@
+---
+title: "CASO 1. Frecuencia de Nombres"
+author: "Rubén Pizarro Gurrola"
+date: "8/9/2021"
+output: html_document
+---
+
+# Objetivo
+
+Elaborar un análisis descriptivo de la frecuencia de nombres de alumnos.
+
+# Descripción
+
+Se importan los datos de la dirección: [\<https://raw.githubusercontent.com/rpizarrog/Trabajos-en-R-AD2021/main/datos/nombres%20y%20apellidos.csv\>](https://raw.githubusercontent.com/rpizarrog/Trabajos-en-R-AD2021/main/datos/nombres%20y%20apellidos.csv) que contiene nombres de alumnos.
+
+La variable de interés es el nombre.
+
+Se utiliza la función *table()* para determinar la frecuencia
+
+Se utiliza la función *order()* para ordenar los valores
+
+Ya con los valores ordenados se genera un diagrama de barra por medio de la función *codebar()*.
+
+Se hace una interpretación del caso.
+
+Se visualizan los primeros diez y últimos diez registros u observaciones de los alumnos.
+
+¿Cómo se hace el caso o como se desarrolla?
+
+# Desarrollo
+
+## Importar los datos
+
+Se leen los datos con *read.csv()*
+
+```{r}
+nombres <- read.csv("https://raw.githubusercontent.com/rpizarrog/datos/main/nombres%20y%20apellidos.csv", encoding = "UTF-8")
+
+
+```
+
+## Visualizar observaciones
+
+Se visualizan los primeros diez y últimos diez registros
+
+```{r}
+head(nombres, 10)
+tail(nombres, 10)
+
+```
+
+## Determinar Frecuencia
+
+Se determina la frecuencia con la función *table()* y se convierte a un data frame con la función *data.frame()*
+
+La variable o columna de interés es nombre y se accede a ella como un vector a través de la expresión *nombres\$nombre.*.
+
+Solo se observan los primeros diez registros de frecuencias con *head()*.
+
+```{r}
+
+frecuencias <- data.frame(table(nombres$nombre))
+head(frecuencias )
+```
+
+## Ordenar las frecuencias
+
+Se ordena por medio de la función *order().*
+
+```{r}
+frecuencias.ordenada <- frecuencias[order(frecuencias$Freq, decreasing = TRUE),]
+
+head(frecuencias.ordenada, 5)
+```
+
+## Diagrama de barra
+
+```{r}
+barplot(height = head(frecuencias.ordenada$Freq, 5)
+, names.arg = head(frecuencias.ordenada$Var1, 5), main = "Frecuencia de nombres", xlab = "Nombres", ylab = "Frecuencias")
+
+```
+
+# Interpretación
+
+Son ideas personales de los participantes, alumnos sobre lo que se desarrolla, a que conclusiones llegan
+
+Dos o tras párrafos de 60 palabras cada uno aproximadamente
