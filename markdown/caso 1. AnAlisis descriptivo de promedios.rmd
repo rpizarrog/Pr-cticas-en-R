@@ -1,0 +1,116 @@
+---
+title: "Caso 1. Análisis de promedios de alumnos"
+author: "Rubén Pizarro Gurrola"
+date: "8/9/2021"
+output: html_document
+---
+
+# Objetivo
+
+Elaborar un análisis descriptivo de la variable promedios de alumnos una muestra de la población a partir de la lectura de un archivo promedios.csv
+
+# Descripción
+
+-   Importar datos de promedio en la dirección: [<https://raw.githubusercontent.com/rpizarrog/Trabajos-en-R-AD2021/main/datos/promedios.csv>](https://raw.githubusercontent.com/rpizarrog/Trabajos-en-R-AD2021/main/datos/promedios.csv) y dejarlo en un data.frame.
+
+-   Mostrar solo los primeros diez registros y los últimos diez registros.
+
+-   Identificar la variable de interés llamada promedio.
+
+-   Determinar una muestra de 300 registros de la población. La población es todos los registros del archivo y la muestra es una parte de la población
+
+-   Identifica la media de la población
+
+-   Identificar la media de la muestra
+
+-   Comparar las medias aritméticas
+
+-   Crear un histograma de los datos
+
+-   Realizar interpretación
+
+# Desarrollo
+
+## Importar los datos
+
+```{r}
+poblacion.alumnos <- read.csv("https://raw.githubusercontent.com/rpizarrog/Trabajos-en-R-AD2021/main/datos/promedios.csv")
+
+
+```
+
+## Mostrar los primeros y últimos registros
+
+Con head() y tail()
+
+```{r}
+head(poblacion.alumnos, 10)
+tail(poblacion.alumnos, 10)
+
+```
+
+## La variable de interés es promedio
+
+Con str() se identifica las variables y el tipo de datos del conjunto de datos
+
+```{r}
+str(poblacion.alumnos)
+
+```
+
+## Muestra de 300 registros
+
+Se utiliza la función sample() para determinar la muestra, primero se determina con una variable llamada cuantas los registros que serán muestreados, y a partir de ella se determina la muestra.
+
+-   ¿Que sería una muestra?. Sería una parte representativa y aleatoria de una población
+
+-   ¿Como determinar una muestra? Se utiliza la función sample()
+
+-   promedios\$promedios significa la variable específica del conjunto de datos promedios
+
+Determinando la variable N el total de registros de la población
+
+```{r}
+N <- nrow(poblacion.alumnos)
+
+```
+
+Se determinan los registros de la muestra
+
+```{r}
+cuales <- sample(x = 1:N, 300, replace = FALSE)
+cuales
+```
+
+Se determina la muestra
+
+```{r}
+muestra.alumnos <- poblacion.alumnos[cuales, ] # Las dos columnas
+head(muestra.alumnos, 10)
+tail(muestra.alumnos, 10)
+```
+
+## Media de la población
+
+Se obtiene la media aritmética de la variable promedio de toda la población con la función mean().
+
+```{r}
+media.poblacion <- mean(poblacion.alumnos$promedio)
+media.poblacion
+
+```
+
+## Media de la muestra
+
+Se obtiene la media aritmética de la variable promedio de la muestra con la función mean().
+
+```{r}
+media.muestra <- mean(muestra.alumnos$promedio)
+media.muestra
+```
+
+# Interpretación
+
+Son ideas personales de los participantes, alumnos sobre lo que se desarrolla, a que conclusiones llegan
+
+Dos o tras párrafos de 60 palabras cada uno aproximadamente
