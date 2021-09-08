@@ -41,7 +41,7 @@ poblacion.alumnos <- read.csv("https://raw.githubusercontent.com/rpizarrog/Traba
 
 ## Mostrar los primeros y últimos registros
 
-Con head() y tail()
+Con las funciones *head()* y *tail()* para extraer ciertos registros, en este caso los primeros y últimos diez registros.
 
 ```{r}
 head(poblacion.alumnos, 10)
@@ -51,7 +51,7 @@ tail(poblacion.alumnos, 10)
 
 ## La variable de interés es promedio
 
-Con str() se identifica las variables y el tipo de datos del conjunto de datos
+Con str() se identifica las variables y el tipo de datos del conjunto de datos.
 
 ```{r}
 str(poblacion.alumnos)
@@ -60,39 +60,39 @@ str(poblacion.alumnos)
 
 ## Muestra de 300 registros
 
-Se utiliza la función sample() para determinar la muestra, primero se determina con una variable llamada cuantas los registros que serán muestreados, y a partir de ella se determina la muestra.
+Se utiliza la función *sample()* para determinar la muestra, primero se determina con una variable llamada cuantas los registros que serán muestrados, y a partir de ella se determina la muestra.
 
 -   ¿Que sería una muestra?. Sería una parte representativa y aleatoria de una población
 
--   ¿Como determinar una muestra? Se utiliza la función sample()
+-   ¿Como determinar una muestra? Se utiliza la función *sample().*
 
 -   promedios\$promedios significa la variable específica del conjunto de datos promedios
 
-Determinando la variable N el total de registros de la población
+Determinando la variable *N* el total de registros de la población con la función *nrow()* para determinar cuántos registros.
 
 ```{r}
 N <- nrow(poblacion.alumnos)
 
 ```
 
-Se determinan los registros de la muestra
+Se determinan los registros de la muestra que pueen estar entre 1 y N con *1:N, replace= FALSE* significa que el valor numérico encontrado aleatoriamente por *sample*, no se puede repetir o por el contrario si se puede repetir con la opción TRUE.
 
 ```{r}
 cuales <- sample(x = 1:N, 300, replace = FALSE)
 cuales
 ```
 
-Se determina la muestra
+Se determina la muestra de los valores numéricos que arroja la variable *cuales* con respecto a la población.Se utilizan los corchetes en formato *[renglones, columnas]* para identificar los registros.
 
 ```{r}
-muestra.alumnos <- poblacion.alumnos[cuales, ] # Las dos columnas
+muestra.alumnos <- poblacion.alumnos[cuales, ] # , espacio significa las dos columnas o todas las columnas
 head(muestra.alumnos, 10)
 tail(muestra.alumnos, 10)
 ```
 
 ## Media de la población
 
-Se obtiene la media aritmética de la variable promedio de toda la población con la función mean().
+Se obtiene la media aritmética de la variable promedio de toda la población con la función *mean()*.
 
 ```{r}
 media.poblacion <- mean(poblacion.alumnos$promedio)
@@ -102,15 +102,42 @@ media.poblacion
 
 ## Media de la muestra
 
-Se obtiene la media aritmética de la variable promedio de la muestra con la función mean().
+Se obtiene la media aritmética de la variable promedio de la muestra con la función *mean()*.
 
 ```{r}
 media.muestra <- mean(muestra.alumnos$promedio)
 media.muestra
 ```
 
+## Histograma
+
+Un histograma es una representación visual de datos cuantitativo en dos ejes: x & y, la gráfica es en forma de barras y representa como se distribuyen los datos cuantitativos, la altura de la barra indica cuantos datos hay de cada valor.
+
+Se utiliza la función *hist()* para representar el histograma.
+
+```{r}
+hist(x = poblacion.alumnos$promedio, main = "Histograma. Promedio de la población", xlab = "Promedios", ylab = "Cantidad")
+
+hist(x = muestra.alumnos$promedio, main="Histograma. Promedio de la muestra", , xlab = "Promedios", ylab = "Cantidad")
+
+```
+
 # Interpretación
 
-Son ideas personales de los participantes, alumnos sobre lo que se desarrolla, a que conclusiones llegan
+Se hace un análisis descriptivo obteniendo el parámetro media poblacional y el estadístico media de la muestra de la variable promedio; se visualiza mediante un histograma la distribución de los datos con respecto a la población y a la muestra.
 
-Dos o tras párrafos de 60 palabras cada uno aproximadamente
+La población se compon de 6500 registros u observaciones.
+
+La muestra que se obtiene es de 300 registros
+
+La variable de interés es el promedio que significa un valor numérico que tiene cada alumno con respeto a calificaciones académicas.
+
+EL promedio de la población es de `r media.poblacion `
+
+La media aritmética de la muestra de promedio es de `r media.muestra`.
+
+Los valores de las medias se parecen o son similares, lo que representa que al sacar muestras aleatorias a partir de poblaciones los estadísticos deben ser representativos con respecto a los parámetros de la población.
+
+Las muestras son parte de una población y deben ser aleatorias y representativas.
+
+El histograma representa como se distribuyen los datos, significa que hay muchos promedios entre valores de 80 y 88 aproximadamente.
