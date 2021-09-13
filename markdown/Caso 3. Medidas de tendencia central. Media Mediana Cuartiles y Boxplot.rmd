@@ -1,0 +1,60 @@
+---
+title: "Caso 3. Medidas de tendencia central. Media, Mediana Cuartiles y Boxplot"
+author: "Rubén Pizarro Gurrola"
+date: "13/9/2021"
+output: html_document
+---
+
+# Objetivo
+
+Determinar medidas de tendencia central y visualizar con *boxplot* las medidas de tendencia central.
+
+# Descripción
+
+Cargar tres conjuntos de datos:
+
+-   edades
+
+-   sueldos
+
+-   calificaciones
+
+# Desarrollo
+
+Para los tres conjuntos de datos, se siembre una semilla para generar datos aleatorios.
+
+```{r}
+set.seed(2021) # Semilla
+```
+
+## Edades
+
+Una muestra del contexto de edades de personas entre 18 y 65 años. Se generan 50 datos.
+
+```{r}
+
+edades <- sample(18:65, 50, replace = TRUE)
+edades
+```
+
+## Sueldos
+
+Una muestra del contexto de edades de personas entre 18 y 65 años. Se generan 50 datos.
+
+```{r}
+
+sueldos <- sample(10000:50000, 500, replace = TRUE)
+sueldos
+```
+
+## Calificaciones
+
+Una muestra del contexto de calificaciones de entre 70 y 100 de estudiantes del ITD. Se generan 100 datos.
+
+```{r}
+
+calificaciones <- sample(70: 100, 100, replace = TRUE)
+calificaciones
+```
+
+# Interpretación
