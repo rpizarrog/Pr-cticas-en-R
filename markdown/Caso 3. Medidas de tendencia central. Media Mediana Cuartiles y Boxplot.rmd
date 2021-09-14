@@ -138,7 +138,7 @@ boxplot(edades, horizontal = TRUE)
 
 ```
 
-Utilizando *summary()*
+### *summary()*
 
 La función *summary()* genera los estadísticos descriptivos básicos de un conjunto de datos.
 
