@@ -60,6 +60,12 @@ mediana.edades
 
 ```
 
+Cuando el valor de la media y la mediana so igual es la distribución de los datos es simétrica.
+
+Si el valor de la media es mayor que la mediana la distribución es asimetrica con un sesgo positivo a la derecha.
+
+Por el contrario si el valor de la media es menor que la mediana, entonces la distribución es asimétrica con un sesgo negativo a la izquierda.
+
 ### Moda
 
 La moda se puede usar la función *table()* o utilizar la función *mfv(x)* del paquete *modeest*. Se carga la libraría o paquete *modest* previa instalación con la función *install.packages("modeest").*
@@ -93,18 +99,6 @@ min.edades
 
 ```
 
-### Cuartiles
-
-Se determinan los cuartiles mediante la función *quantile()*. Los cuartiles significa medidas de localización dentro de un conjunto de datos, sirven para interpretar cuántos datos están por encima y por debajo de cada cuartil.
-
-EL cuartil al 50% debe ser igual a la mediana.
-
-```{r}
-cuartiles.edades <- quantile(edades, c(0.25, 0.50, 0.75))
-cuartiles.edades
-
-```
-
 ### Rango
 
 El rango significa el intervalo de los datos entre el valor máximo y mínimo.
@@ -120,6 +114,20 @@ max(edades)-min(edades)
 
 ```
 
+### Cuartiles
+
+Se determinan los cuartiles mediante la función *quantile()*. Los cuartiles significa medidas de localización dentro de un conjunto de datos, sirven para interpretar cuántos datos están por encima y por debajo de cada cuartil.
+
+EL cuartil al 50% debe ser igual a la mediana.
+
+```{r}
+cuartiles.edades <- quantile(edades, c(0.25, 0.50, 0.75))
+cuartiles.edades
+
+```
+
+### 
+
 ### Histograma
 
 El histograma refleja la distribución de los datos
@@ -134,7 +142,9 @@ hist(edades, main = "Histograma de edades", xlab = "Edades", ylab = "Frecuencia"
 Diagrama de bigotes o boxplot representa los valores de la mediana con linea en medio, los valores de cuartiles y los extremos mínimo y máximo de un conjunto de datos. Refleja la cantidad de datos (el cuadro) que están por encima o por debajo de la mediana o cuartiles.
 
 ```{r}
-boxplot(edades, horizontal = TRUE)
+
+boxplot(edades, horizontal = TRUE, 
+        main="Edades")
 
 ```
 
@@ -171,12 +181,14 @@ calificaciones
 
 # Interpretación
 
+Responder de manera descriptiva con sus palabras a las siguientes preguntas:
+
 ¿Cuáles son los valores de media, mediana y moda y qué significan en el conjunto de datos de edades, sueldos y calificaciones?
 
-¿Cuáles son los valores de los cuartiles para cada conjunto de datos?
+¿Cuáles son los valores de los cuartiles para cada conjunto de datos y qué signfican?
 
-¿Cuáles son los valores máximos, mínimos y el rango de cada conjunto de datos y que qué significa?
+¿Cuáles son los valores máximos, mínimos y el rango de cada conjunto de datos y qué significa?
 
 ¿Para qué sirve o cómo se interpreta un histograma de datos?; ¿cuál es el significado de cada histograma en cada conjunto de datos?
 
-¿Cómo se interpreta el diagrama de *boxplot()* o caja de bigotes?, ¿qué significado tiene en cada conjunto de datos?
+¿Cómo se interpreta el diagrama de *boxplot()* o diagrama de bigotes?, ¿qué significado tiene en cada conjunto de datos?
