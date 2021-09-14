@@ -1,5 +1,5 @@
 ---
-title: "Caso 3. Medidas de tendencia central. media, mediana, moda, máximos mínimos, rango, cuartiles, histograma y boxplot"
+title: "Caso 3. Medidas de tendencia central. media, mediana, moda, máximos, mínimos, rango, intervalos, cuartiles, histograma y boxplot"
 author: "Rubén Pizarro Gurrola"
 date: "13/9/2021"
 output: html_document
@@ -7,7 +7,7 @@ output: html_document
 
 # Objetivo
 
-Determinar medidas de tendencia central y visualizar con histogramas y *boxplot* las medidas de tendencia central.
+Determinar, interpretar y visualizar medidas de tendencia central de un conjunto de datos de edades, sueldos y calificaciones respectivamente.
 
 # Descripción
 
@@ -47,7 +47,7 @@ edades <- sample(18:65, 50, replace = TRUE)
 edades
 ```
 
-#### Media, mediana 
+### Media, mediana
 
 La media se determina mediante la función *mean()* y la mediana con la función median().
 
@@ -60,7 +60,7 @@ mediana.edades
 
 ```
 
-#### Moda
+### Moda
 
 La moda se puede usar la función *table()* o utilizar la función *mfv(x)* del paquete *modeest*. Se carga la libraría o paquete *modest* previa instalación con la función *install.packages("modeest").*
 
@@ -80,7 +80,7 @@ frecuencias.edades
 
 ```
 
-#### Valores máximos y mínimos
+### Valores máximos y mínimos
 
 Con las funciones *max()* y *min()* se determinan los valores máximos y mínimos de u conjunto de datos
 
@@ -93,7 +93,7 @@ min.edades
 
 ```
 
-#### Cuartiles
+### Cuartiles
 
 Se determinan los cuartiles mediante la función *quantile()*. Los cuartiles significa medidas de localización dentro de un conjunto de datos, sirven para interpretar cuántos datos están por encima y por debajo de cada cuartil.
 
@@ -105,7 +105,7 @@ cuartiles.edades
 
 ```
 
-#### Rango
+### Rango
 
 El rango significa el intervalo de los datos entre el valor máximo y mínimo.
 
@@ -120,7 +120,7 @@ max(edades)-min(edades)
 
 ```
 
-#### Histograma
+### Histograma
 
 El histograma refleja la distribución de los datos
 
@@ -129,7 +129,9 @@ hist(edades, main = "Histograma de edades", xlab = "Edades", ylab = "Frecuencia"
 
 ```
 
-#### Boxplot
+### Boxplot
+
+Diagrama de bigotes o boxplot representa los valores de la mediana con linea en medio, los valores de cuartiles y los extremos mínimo y máximo de un conjunto de datos. Refleja la cantidad de datos (el cuadro) que están por encima o por debajo de la mediana o cuartiles.
 
 ```{r}
 boxplot(edades, horizontal = TRUE)
@@ -170,6 +172,8 @@ calificaciones
 # Interpretación
 
 ¿Cuáles son los valores de media, mediana y moda y qué significan en el conjunto de datos de edades, sueldos y calificaciones?
+
+¿Cuáles son los valores de los cuartiles para cada conjunto de datos?
 
 ¿Cuáles son los valores máximos, mínimos y el rango de cada conjunto de datos y que qué significa?
 
