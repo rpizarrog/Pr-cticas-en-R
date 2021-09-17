@@ -1,0 +1,376 @@
+---
+title: "Caso 4. Tablas de Contingencias y medidas de dispersión"
+author: "Rubén Pizarro Gurrola"
+date: "17/9/2021"
+output: html_document
+---
+
+# Objetivo
+
+Crear tablas de contingencia y determinar medidas de dispersión de datos como edades, sueldos y calificaciones.
+
+# Descripción
+
+-   Identificar media de los datos
+-   Identificar medidas de dispersión, varianza y desviación estándard.
+-   Generar tablas de contingencia
+-   Visualizar dispersión de los datos.
+-   Identificar coeficiente de variación y comparar con similares conjuntos de datos.
+
+# Desarrollo
+
+## Librerías
+
+Instalar librerías anticipadamente con *install.packages("fdth")*
+
+```{r message=FALSE, warning=FALSE}
+library(fdth)
+
+```
+
+## Datos edades 
+
+Se establece valor de semilla.
+
+```{r}
+set.seed(2021)
+
+```
+
+### Edades
+
+Se  generan 200 edades en dos conjuntos de datos diferentes.
+
+```{r}
+edades1 <- sample(x = 18:60,size = 200,replace = TRUE )
+edades2 <- sample(x = 18:60,size = 200,replace = TRUE )
+
+```
+
+### Mostrar los datos
+
+Se identifican los datos ordenados con la función *order()*.
+
+```{r}
+sort(edades1)
+sort(edades2)
+
+```
+
+### Tablas de frecuencias o tablas de contingencias
+
+#### edades1
+
+Se muestran las tablas de frecuencias del conjunto de datos edades1 y edades2.
+
+```{r}
+tabla.edades1 <- fdt(x = edades1)
+tabla.edades1
+```
+
+```{r}
+hist(edades1) # Histograma
+plot(edades1) # Gráfica de dispersión
+
+```
+
+#### edades2
+
+```{r}
+tabla.edades2 <- fdt(x = edades2)
+tabla.edades2
+
+```
+
+```{r}
+hist(edades2) # Histograma
+plot(edades2) # Gráfica de dispersión
+```
+
+### Medidas de dispersión
+
+Las medidas de dispersión varianza y desviación estándar miden el valor de dispersión de un conjunto de datos numéricos.
+
+La dispersión significa que tanto los datos están alejados de la media, el valor de la desviación se compara con la media y se interpreta que tanto los valores distan del valor de la media.
+
+Con las funciones de *var()* y *sd()* se determinan la varianza y a desviación respectivamente y con *mean()* la media de la muestra.
+
+```{r}
+media_edades1 <- mean(edades1)
+media_edades2 <- mean(edades1)
+
+varianza_edades1 <- var(edades1)
+varianza_edades2 <- var(edades1)
+
+desv.std_edades1 <- sd(edades1)
+desv.std_edades2 <- sd(edades2)
+
+```
+
+Se muestran los valores generados, el punto y coma en R significa en una misma linea se ejecutan dos instrucciones o dos comandos, en este caso solo mostrar los valores.
+
+```{r}
+media_edades1; media_edades2 
+
+varianza_edades1; varianza_edades2
+
+desv.std_edades1; desv.std_edades2 
+
+```
+
+### Coeficiente de variación
+
+El coeficiente de variación (CV) es un estadístico que permite comparar entre dos o mas conjuntos de datos cuál es estos tiene una dispersión mayor o menor.
+
+Al identificar el CV de un conjunto de datos y compararlo con otro CV de otro conjunto de datos similares, se puede determinar cual de los datos tiene mayor o menor dispersión y se puede concluir en cual es estos está mas dispersos sus datos, es decir cuál de ellos se aleja mas o menos de la media, según sea el caso.
+
+Para determinar el coeficiente de variación se establece la división de la desviación estándar entre la media del conjunto de datos.
+
+$$
+CV = \frac{\sigma}{\bar{x}}
+$$
+
+```{r}
+CV_edades1 <- desv.std_edades1 / media_edades1
+CV_edades1
+
+CV_edades2 <- desv.std_edades2 / media_edades2
+CV_edades2
+```
+
+### Datos sueldos
+
+Se  generan 200 sueldos en dos conjuntos de datos diferentes.
+
+```{r}
+sueldos1 <- sample(x = 10000:12000,size = 200,replace = TRUE )
+sueldos2 <- sample(x = 10000:12000,size = 200,replace = TRUE )
+
+```
+
+#### Mostrar los datos
+
+Se identifican los datos ordenados con la función *order()*.
+
+```{r}
+sort(sueldos1)
+sort(sueldos2)
+
+```
+
+### Tablas de frecuencias o tablas de contingencias
+
+#### sueldos1
+
+Se muestran las tablas de frecuencias del conjunto de datos sueldos1 y sueldos2.
+
+```{r}
+tabla.sueldos1 <- fdt(x = sueldos1)
+tabla.sueldos1
+```
+
+```{r}
+hist(sueldos1) # Histograma
+plot(sueldos1) # Gráfica de dispersión
+
+```
+
+#### sueldos2
+
+```{r}
+tabla.sueldos2 <- fdt(x = sueldos2)
+tabla.sueldos2
+
+```
+
+```{r}
+hist(sueldos2) # Histograma
+plot(sueldos2) # Gráfica de dispersión
+```
+
+### Medidas de dispersión
+
+```{r}
+media_sueldos1 <- mean(sueldos1)
+media_sueldos2 <- mean(sueldos2)
+
+varianza_sueldos1 <- var(sueldos1)
+varianza_sueldos2 <- var(sueldos2)
+
+desv.std_sueldos1 <- sd(sueldos1)
+desv.std_sueldos2 <- sd(sueldos2)
+
+```
+
+Se muestran los valores generados.
+
+```{r}
+media_sueldos1; media_sueldos2 
+
+varianza_sueldos1; varianza_sueldos2
+
+desv.std_sueldos1; desv.std_sueldos2 
+
+```
+
+### Coeficiente de variación
+
+```{r}
+CV_sueldos1 <- desv.std_sueldos1 / media_sueldos1
+CV_sueldos1
+
+CV_sueldos2 <- desv.std_sueldos2 / media_sueldos2
+CV_sueldos2
+```
+
+
+### Datos calificaciones
+
+Se  generan 500 calificaciones en dos conjuntos de datos diferentes.
+
+```{r}
+calif1 <- sample(x = 70:100,size = 500,replace = TRUE )
+calif2 <- sample(x = 70:100,size = 500,replace = TRUE )
+
+```
+
+#### Mostrar los datos
+
+Se identifican los datos ordenados con la función *order()*.
+
+```{r}
+sort(calif1)
+sort(calif2)
+
+```
+
+### Tablas de frecuencias o tablas de contingencias
+
+#### calif1
+
+Se muestran las tablas de frecuencias del conjunto de datos calif1 y calif2.
+
+```{r}
+tabla.calif1 <- fdt(x = calif1)
+tabla.calif1
+```
+
+```{r}
+hist(calif1) # Histograma
+plot(calif1) # Gráfica de dispersión
+
+```
+
+#### calif2
+
+```{r}
+tabla.calif2 <- fdt(x = calif2)
+tabla.calif2
+
+```
+
+```{r}
+hist(calif2) # Histograma
+plot(calif2) # Gráfica de dispersión
+```
+
+### Medidas de dispersión
+
+```{r}
+media_calif1 <- mean(calif1)
+media_calif2 <- mean(calif2)
+
+varianza_calif1 <- var(calif1)
+varianza_calif2 <- var(calif2)
+
+desv.std_calif1 <- sd(calif1)
+desv.std_calif2 <- sd(calif2)
+
+```
+
+Se muestran los valores generados.
+
+```{r}
+media_calif1; media_calif2 
+
+varianza_calif1; varianza_calif2
+
+desv.std_calif1; desv.std_calif2 
+
+```
+
+### Coeficiente de variación
+
+```{r}
+CV_calif1 <- desv.std_calif1 / media_calif1
+CV_calif1
+
+CV_calif2 <- desv.std_calif2 / media_calif2
+CV_calif2
+```
+
+
+# Interpretación
+
+## Edades
+
+### ¿Qué representan las tablas de contingencia?
+
+Las tablas de contingencia representan las clases y la frecuencias de casos de cada una de las clases, permiten observar los valores relativos y porcentuales de las frecuencias.
+
+Con respecto a edades1 existe un 15.5% de valores que están en un rango o intervalo entre 36.83 y 41.59.
+
+En relación a edades2 existe una cantidad de valores entre 36.83 y 46.34 que representan el 14.5%.
+
+### ¿Cuáles son los valores media y desviación de los conjuntos de datos edades?
+
+Con respecto a los valores estadísticos del conjunto de datos edades1, el valor la media es de: `r media_edades1`, la desviación es de: `r desv.std_edades1`.
+
+Con respecto a los valores estadísticos del conjunto de datos edades2, el valor la media es de: `r  media_edades2`, la desviación es de: `r desv.std_edades2`.
+
+### ¿Cuáles son los valores de coeficiente de variación para los conjuntos de datos edades y que representan?
+
+El coeficiente de variación de edades1 es de: `r CV_edades1`y el CV de edades2 es de: `r CV_edades2`
+
+Existe mayor dispersión en los valores del conjunto de datos edades1 con respecto a edades2 por tener ligeramente mayor valor en su coeficiente de variación.
+
+## Sueldos
+
+### ¿Qué representan las tablas de contingencia?
+
+Con respecto a sueldos1 existe **pendiente ...**
+
+En relación a sueldos2 **pendiente ...**.
+
+### ¿Cuáles son los valores media y desviación de los conjuntos de datos sueldos?
+
+Con respecto a los valores estadísticos del conjunto de datos sueldos1, **pendiente ...**
+
+Con respecto a los valores estadísticos del conjunto de datos sueldos2, **pendiente ...**
+
+### ¿Cuáles son los valores de coeficiente de variación para los conjuntos de datos sueldos y que representan?
+
+El coeficiente de variación de sueldos1 es de: `r CV_sueldos1`y el CV de sueldos2 es de: `r CV_sueldos2`
+
+**pendiente ...**
+
+## Calificacioness
+
+### ¿Qué representan las tablas de contingencia?
+
+Con respecto a calif1 existe **pendiente ...**
+
+En relación a calif2 **pendiente ...**.
+
+### ¿Cuáles son los valores media y desviación de los conjuntos de datos calificaciones?
+
+Con respecto a los valores estadísticos del conjunto de datos calif1, **pendiente ...**
+
+Con respecto a los valores estadísticos del conjunto de datos calif2, **pendiente ...**
+
+### ¿Cuáles son los valores de coeficiente de variación para los conjuntos de datos calificaciones y que representan?
+
+El coeficiente de variación de sueldos1 es de: `r CV_calif1`y el CV de sueldos2 es de: `r CV_calif2`
+
+**pendiente ...**
+
