@@ -28,7 +28,7 @@ library(fdth)
 
 ```
 
-## Datos edades 
+## Datos edades
 
 Se establece valor de semilla.
 
@@ -39,7 +39,7 @@ set.seed(2021)
 
 ### Edades
 
-Se  generan 200 edades en dos conjuntos de datos diferentes.
+Se generan 200 edades en dos conjuntos de datos diferentes.
 
 ```{r}
 edades1 <- sample(x = 18:60,size = 200,replace = TRUE )
@@ -67,6 +67,18 @@ Se muestran las tablas de frecuencias del conjunto de datos edades1 y edades2.
 tabla.edades1 <- fdt(x = edades1)
 tabla.edades1
 ```
+
+-   Class limits significa el rango de cada clase
+
+-   f significia la frecuencia, la suma de f debe dr el total de elementos.
+
+-   rf significa frecuencia relativa la suma de rf debe ser el 1
+
+-   rf% significa el valor relativo pero en porcentaje, la suma de rf% debe ser el 100%
+
+-   cf significa frecuencia acumulada
+
+-   cf% significa frecuencia porcentual acumulada
 
 ```{r}
 hist(edades1) # Histograma
@@ -140,7 +152,7 @@ CV_edades2
 
 ### Datos sueldos
 
-Se  generan 200 sueldos en dos conjuntos de datos diferentes.
+Se generan 200 sueldos en dos conjuntos de datos diferentes.
 
 ```{r}
 sueldos1 <- sample(x = 10000:12000,size = 200,replace = TRUE )
@@ -223,10 +235,9 @@ CV_sueldos2 <- desv.std_sueldos2 / media_sueldos2
 CV_sueldos2
 ```
 
-
 ### Datos calificaciones
 
-Se  generan 500 calificaciones en dos conjuntos de datos diferentes.
+Se generan 500 calificaciones en dos conjuntos de datos diferentes.
 
 ```{r}
 calif1 <- sample(x = 70:100,size = 500,replace = TRUE )
@@ -309,7 +320,6 @@ CV_calif2 <- desv.std_calif2 / media_calif2
 CV_calif2
 ```
 
-
 # Interpretación
 
 ## Edades
@@ -373,4 +383,3 @@ Con respecto a los valores estadísticos del conjunto de datos calif2, **pendien
 El coeficiente de variación de sueldos1 es de: `r CV_calif1`y el CV de sueldos2 es de: `r CV_calif2`
 
 **pendiente ...**
-
