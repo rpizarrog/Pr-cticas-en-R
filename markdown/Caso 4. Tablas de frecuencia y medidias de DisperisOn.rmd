@@ -89,15 +89,15 @@ Existen otras formas de determinar el número de clases a utilizar, algunas más
 Independientemente de la forma de cálculo seleccionada ya se *Sturges*, *Scott* o Freedman-Diaconis (FD), lo realmente importante es que la información mostrada en la tabla de frecuencia sea fácil de revisar, que no contenga un número excesivo de clases y que la información que en ella se refleja permita comprender cómo se presentan los datos en la población o de una muestra.
 
 ```{r}
-tabla.edades1 <- fdt(x = edades1, breaks = "Sturges")
+tabla.edades1 <- fdt(x = edades1, breaks="Sturges")
 tabla.edades1
 ```
 
 -   Class limits significa el rango de cada clase
 
--   f significia la frecuencia, la suma de f debe dr el total de elementos.
+-   f significa la frecuencia, la suma de f debe ser el total de elementos.
 
--   rf significa frecuencia relativa la suma de rf debe ser el 1
+-   rf significa frecuencia relativa la suma de todas las rf debe ser el 1
 
 -   rf% significa el valor relativo pero en porcentaje, la suma de rf% debe ser el 100%
 
@@ -106,7 +106,7 @@ tabla.edades1
 -   cf% significa frecuencia porcentual acumulada
 
 ```{r}
-hist(edades1) # Histograma
+hist(edades1, breaks = "Sturges", ) # Histograma
 plot(edades1) # Gráfica de dispersión
 
 ```
@@ -114,7 +114,7 @@ plot(edades1) # Gráfica de dispersión
 #### edades2
 
 ```{r}
-tabla.edades2 <- fdt(x = edades2)
+tabla.edades2 <- fdt(x = edades2, breaks = "Sturges")
 tabla.edades2
 
 ```
@@ -134,10 +134,10 @@ Con las funciones de *var()* y *sd()* se determinan la varianza y a desviación 
 
 ```{r}
 media_edades1 <- mean(edades1)
-media_edades2 <- mean(edades1)
+media_edades2 <- mean(edades2)
 
 varianza_edades1 <- var(edades1)
-varianza_edades2 <- var(edades1)
+varianza_edades2 <- var(edades2)
 
 desv.std_edades1 <- sd(edades1)
 desv.std_edades2 <- sd(edades2)
@@ -202,7 +202,7 @@ sort(sueldos2)
 Se muestran las tablas de frecuencias del conjunto de datos sueldos1 y sueldos2.
 
 ```{r}
-tabla.sueldos1 <- fdt(x = sueldos1)
+tabla.sueldos1 <- fdt(x = sueldos1, breaks = "Sturges")
 tabla.sueldos1
 ```
 
@@ -215,7 +215,7 @@ plot(sueldos1) # Gráfica de dispersión
 #### sueldos2
 
 ```{r}
-tabla.sueldos2 <- fdt(x = sueldos2)
+tabla.sueldos2 <- fdt(x = sueldos2, breaks = "Sturges")
 tabla.sueldos2
 
 ```
@@ -287,7 +287,7 @@ sort(calif2)
 Se muestran las tablas de frecuencias del conjunto de datos calif1 y calif2.
 
 ```{r}
-tabla.calif1 <- fdt(x = calif1)
+tabla.calif1 <- fdt(x = calif1, breaks = "Sturges")
 tabla.calif1
 ```
 
@@ -300,7 +300,7 @@ plot(calif1) # Gráfica de dispersión
 #### calif2
 
 ```{r}
-tabla.calif2 <- fdt(x = calif2)
+tabla.calif2 <- fdt(x = calif2, breaks = "Sturges")
 tabla.calif2
 
 ```
