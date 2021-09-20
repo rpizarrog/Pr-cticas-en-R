@@ -2,7 +2,10 @@
 title: "Caso 4. Tablas de Contingencias y medidas de dispersión"
 author: "Rubén Pizarro Gurrola"
 date: "17/9/2021"
-output: html_document
+output:
+  html_document: default
+  word_document: default
+  pdf_document: default
 ---
 
 # Objetivo
@@ -63,8 +66,30 @@ sort(edades2)
 
 Se muestran las tablas de frecuencias del conjunto de datos edades1 y edades2.
 
+En las tablas de frecuencias se determina matemáticamente el número de clases, La opción matemáticamente más consistente es la conocida como regla de *Sturges*.
+
+La solución de esta ecuación proporciona una regla práctica para obtener el número de clases.
+
+$$
+k=1+3.322log10(N)
+$$
+
+-   Siendo k el número de clases
+
+-   log es la función logarítmica de base 10, log10()
+
+-   y N el total de la muestra
+
+El rango de clase de acuerdo a *Sturges* está dada por $$
+h=\frac{max(datos) - min(datos)}{k}
+$$Siendo h el rango de cada clase y max(datos) - min(datos) el rango del total de los datos, es decir la diferencia entre límite superior menos límite inferior.
+
+Existen otras formas de determinar el número de clases a utilizar, algunas más complejas, otras más simples.
+
+Independientemente de la forma de cálculo seleccionada ya se *Sturges*, *Scott* o Freedman-Diaconis (FD), lo realmente importante es que la información mostrada en la tabla de frecuencia sea fácil de revisar, que no contenga un número excesivo de clases y que la información que en ella se refleja permita comprender cómo se presentan los datos en la población o de una muestra.
+
 ```{r}
-tabla.edades1 <- fdt(x = edades1)
+tabla.edades1 <- fdt(x = edades1, breaks = "Sturges")
 tabla.edades1
 ```
 
