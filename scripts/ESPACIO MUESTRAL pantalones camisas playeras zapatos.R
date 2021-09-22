@@ -23,6 +23,9 @@ tallas.CAMISAS
 tallas.PLAYERAS
 tallas.ZAPATOS
 
+genero <- c("Femenino", "Masculino")
+genero
+
 
 pantalones <- data.frame("productos" = c(rep(productos[1], length(marcas) * length(tallas.PANTALON) * length(genero))),
                          "marcas" = c(rep(marcas[1], length(tallas.PANTALON)* length(genero)), 
