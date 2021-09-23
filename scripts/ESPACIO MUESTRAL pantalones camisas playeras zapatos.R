@@ -1,5 +1,9 @@
 # Generar data.frame de productos, marcas  y tallas
 
+
+# Cargar librerías
+library(dplyr)
+
 # Hay cuatro tipos de productos
 productos <- c('PANTALON', 'CAMISA', 'PLAYERA', 'ZAPATOS')
 
@@ -27,57 +31,32 @@ generos <- c("Femenino", "Masculino")
 generos
 
 
-pantalones <- data.frame("productos" = c(rep(productos[1], length(marcas) * length(tallas.PANTALON) * length(generos))),
-                         "marcas" = c(rep(marcas[1], length(tallas.PANTALON)* length(generos)), 
-                                      rep(marcas[2], length(tallas.PANTALON)* length(generos)),
-                                      rep(marcas[3], length(tallas.PANTALON)* length(generos))),
-                         "tallas" = c(rep(tallas.PANTALON[1], length(marcas) * length(generos)),
-                                      rep(tallas.PANTALON[2], length(marcas) * length(generos)),
-                                      rep(tallas.PANTALON[3], length(marcas) * length(generos))),
-                         "generos" = c(rep(generos[1], length(marcas) * length(tallas.PANTALON)),
-                                      rep(generos[2], length(marcas) * length(tallas.PANTALON))))
+pantalones <- union(cbind("productos" = productos[1], merge(marcas, tallas.PANTALON), "generos" = generos[1]), 
+                    cbind("productos" = productos[1],merge(marcas, tallas.PANTALON), "generos" = generos[2]))
                          
                       
 
 pantalones
 
 
-camisas <- data.frame("productos" = c(rep(productos[2], length(marcas) * length(tallas.CAMISAS) * length(generos))),
-                      "marcas" = c(rep(marcas[1], length(tallas.CAMISAS)* length(generos)), 
-                                   rep(marcas[2], length(tallas.CAMISAS)* length(generos)),
-                                   rep(marcas[3], length(tallas.CAMISAS)* length(generos))),
-                      "tallas" = c(rep(tallas.CAMISAS[1], length(marcas) * length(generos)),
-                                   rep(tallas.CAMISAS[2], length(marcas) * length(generos))),
-                      "generos" = c(rep(generos[1], length(marcas) * length(tallas.CAMISAS)),
-                                   rep(generos[2], length(marcas) * length(tallas.CAMISAS))))
+camisas <- union(cbind("productos" = productos[2], merge(marcas, tallas.CAMISAS), "generos" = generos[1]), 
+                 cbind("productos" = productos[2], merge(marcas, tallas.CAMISAS), "generos" = generos[2]))
+
+
+
 camisas
 
-playeras <- data.frame("productos" = c(rep(productos[3], length(marcas) * length(tallas.PLAYERAS) * length(generos))),
-                       "marcas" = c(rep(marcas[1], length(tallas.PLAYERAS)* length(generos)), 
-                                    rep(marcas[2], length(tallas.PLAYERAS)* length(generos)),
-                                    rep(marcas[3], length(tallas.PLAYERAS)* length(generos))),
-                       "tallas" = c(rep(tallas.PLAYERAS[1], length(marcas) * length(generos)),
-                                    rep(tallas.PLAYERAS[2], length(marcas) * length(generos)),
-                                    rep(tallas.PLAYERAS[3], length(marcas) * length(generos)),
-                                    rep(tallas.PLAYERAS[4], length(marcas) * length(generos))),
-                       "generos" = c(rep(generos[1], length(marcas) * length(tallas.PLAYERAS)),
-                                    rep(generos[2], length(marcas) * length(tallas.PLAYERAS))))
+playeras <- union(cbind("productos" = productos[3], merge(marcas, tallas.PLAYERAS), "generos" = generos[1]), 
+                   cbind("productos" = productos[3], merge(marcas, tallas.PLAYERAS), "generos" = generos[2]))
 playeras
 
-zapatos <- data.frame("productos" = c(rep(productos[4], length(marcas) * length(tallas.ZAPATOS) * length(generos))),
-                      "marcas" = c(rep(marcas[1], length(tallas.ZAPATOS)* length(generos)), 
-                                   rep(marcas[2], length(tallas.ZAPATOS)* length(generos)),
-                                   rep(marcas[3], length(tallas.ZAPATOS)* length(generos))),
-                      "tallas" = c(rep(tallas.ZAPATOS[1], length(marcas) * length(generos)),
-                                   rep(tallas.ZAPATOS[2], length(marcas) * length(generos)),
-                                   rep(tallas.ZAPATOS[3], length(marcas) * length(generos)),
-                                   rep(tallas.ZAPATOS[4], length(marcas) * length(generos)),
-                                   rep(tallas.ZAPATOS[5], length(marcas) * length(generos))),
-                      "generos" = c(rep(generos[1], length(marcas) * length(tallas.ZAPATOS)),
-                                   rep(generos[2], length(marcas) * length(tallas.ZAPATOS))))
+zapatos <- union(cbind("productos" = productos[4], merge(marcas, tallas.ZAPATOS), "generos" = generos[1]), 
+                 cbind("productos" = productos[4], merge(marcas, tallas.ZAPATOS), "generos" = generos[2]))
 zapatos
 
 
 # ESPACIO MUESTRAL
 S <- rbind(pantalones, camisas, playeras, zapatos)
+
+names(S) <- c("productos", "marcas", "tallas", "generos")
 S
