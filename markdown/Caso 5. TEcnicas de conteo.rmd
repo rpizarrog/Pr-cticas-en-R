@@ -1,0 +1,207 @@
+---
+title: "Caso 5. Técnicas de conteo. Principio Aditivo, Multipiativo, Diagrama de arbol."
+author: "Rubén Pizarro Gurrola"
+date: "22/9/2021"
+output: html_document
+---
+
+# Objetivo
+
+Aplicar y simular algunas técnicas de conteo
+
+# Descripción
+
+-   Cargar librerías
+-   Generar datos a partir de la función *source*()
+-   Aplicar técnicas de conteo aditivo y multipicativo
+-   Interpretar resultados de técnicas de conteo
+-   Interpretar diagrama de árbol
+-   Interpretar probabilidades elementales
+
+# Marco conceptual
+
+## ¿Que son las técnicas de conteo en probabilidad?
+
+Las técnicas de conteo son estrategias matemáticas usadas en probabilidad y estadística que permiten determinar el número total de casos o eventos o situaciones a partir de hacer contabilizar cada uno de ellos dentro de un espacio muestral.
+
+El espacio muestral se define con una literal matemática ***S***
+
+### Principio suma o aditivo
+
+Contar cuántas ocasiones existe de un evento dentro de un espacio muestral.
+
+Se tienen cuatro opciones a elegir en un espacio muestral identificada **S**, ¿Cual es el número de opciones?.
+
+Imaginar que se tienen ciertas opciones 'A, B, C y D para desplazarse de un lugar a otro.
+
+```{r}
+S <- c("A", 'B', 'C', 'D')
+n.opciones <- length(S)
+paste("El número total de opciones de S es cuatro.", n.opciones)
+```
+
+El principio aditivo significa contar las opciones.
+
+¿En cuántas ocasiones existe A dentro de S?. Una ¿En cuántas ocasiones existe B dentro de S?. Una ¿En cuántas ocasiones existe C dentro de S?. Una.
+
+Imaginar que se acude a una tienda de ropa se pueden elegir algún producto de entre varios de ellos; pantalones, camisas, playeras, zapatos.
+
+Se identifica **S** nuevamente como espacio muestral que contiene todos los elementos de la muestra.
+
+```{r}
+productos <- c('PANTALON', 'CAMISA', 'PLAYERA', 'ZAPATOS')
+productos
+
+n.productos <- length(productos)
+paste("El número total de opciones de productos diferentes es: ", n.productos)
+
+```
+
+### Principio multiplicativo
+
+Combina el principio aditivo con la operación de multiplicación.
+
+Se trata de multiplicar las opciones de un tipo por las opciones de otro tipo y sumar los resultados de cada alternativa.
+
+Se decide ir a una tienda de ropa, se puede adquirir, P Pantalones, C Camisas, P Playeras, Z Zapatos; existe por cada producto marcas de fabricantes específicas. De cada tipo de productos existen diferentes marcas X, Y y Z. De igual forma se puede elegir alguna talla de cualquier marca de algún tipo de productos.
+
+La idea es determinar la cantidad de opciones que se tienen en total utilizando el principio multiplicativo.
+
+-   ¿Cuántas y cuáles opciones existen para elegir un sólo producto diferente?, Es el total de productos. Resp. cuatro opciones, un producto diferente de cada uno.
+
+-   ¿Cuántas opciones se tienen para elegir una marca de pantalón. Resp. tres
+
+-   ¿Cuántas opciones se tienen para elegir una marca de camisa. Resp. tres
+
+-   ¿Cuántas opciones se tienen para elegir una marca de playera. Resp.tres
+
+-   ¿Cuántas opciones se tienen para elegir una marca de zapato. Resp. tres
+
+```{r}
+marcas <- c("X", "Y", "Z")
+n.marcas <- length(marcas)
+paste("Marcas diferentes a elegir son: ", n.marcas)
+```
+
+-   ¿Cuántas opciones existen para elegir un tipo de producto de alguna marca en particular?. Resp. $$ 4\text{ productos diferentes}\times 3\text{ marcas diferentes} = 12$$
+
+```{r}
+paste("Alternativas de elegir producto y marca diferente son: ", n.productos * n.marcas)
+```
+
+Existe variedad en tallas de cada producto diferente, es decir, los pantalones, las camisas y las playeras tienen tallas diferentes, C Chica, M Mediana, G Grande, X Extra Grande:
+
+-   De los pantalones existe talla C, M y G, son tres tallas
+
+-   De las camisas existen tallas M y G, son tallas
+
+-   De las playeras existen tallas C, M, G y X, son cuatro tallas
+
+-   De los zapatos existen medidas 24, 25, 26, 27 y 28 en tallas centímetros., son cinco tallas o medidas.
+
+```{r}
+tallas.PANTALON <- c("C", "M", "G")
+tallas.CAMISAS <- c("M", "G")
+tallas.PLAYERAS <- c("C", "M", "G", "X")
+
+# Los zapatos tienen medidas particulares
+tallas.ZAPATOS <- as.character(c(24:28))
+
+tallas.PANTALON
+tallas.CAMISAS
+tallas.PLAYERAS
+tallas.ZAPATOS
+```
+
+¿Cuántas opciones hay en total de elegir un producto distinto de marca diferente y de talla única?.
+
+```{r}
+n.tallas.pantalones <- length(tallas.PANTALON)
+n.tallas.camisas <- length(tallas.CAMISAS)
+n.tallas.playeras <- length(tallas.PLAYERAS)
+n.tallas.zapatos <- length(tallas.ZAPATOS)
+
+n.opciones <- (n.marcas * n.tallas.pantalones)  + (n.marcas * n.tallas.camisas) + (n.marcas * n.tallas.playeras) + (n.marcas * n.tallas.zapatos)
+
+paste("Existen varias alternativas de elegir producto, marca y talla diferente, son: ", n.opciones)
+```
+
+$$
+opciones = (n.marcas \times n.tallas.pantalones) + (n.marcas \times n.tallas.camisas) + \\ (n.marcas \times n.tallas.playeras) + (n.marcas \times n.tallas.zapatos)
+$$
+
+$$
+(3 \times 3) + (3 \times 2) + \\ (3 \times 4) + (3 \times 5) = 42
+$$
+
+Si se multiplica el número de opciones de marcas de cada producto por sus correspondientes tallas y sumando parcialmente cada resultado para determinar finalmente el total de opciones.
+
+Se aplica un principio aditivo y multiplicativo para encontrar la cantidad de opciones y poder elegir un producto de entre todo el espacio muestral **S**.
+
+¿Que sucede si de entre todos los productos hay alternativas de seleccionar para el género femenino y para el género masculino?
+
+$$
+opciones = (n.marcas \times n.tallas.pantalones \times n.generos) + (n.marcas \times n.tallas.camisas\times n.generos) + \\ (n.marcas \times n.tallas.playeras\times n.generos) + (n.marcas \times n.tallas.zapatos\times n.generos)
+$$
+
+$$
+(3 \times 3 \times 2) + (3 \times 2 \times 2) + \\ (3 \times 4 \times 2) + (3 \times 5 \times 2) = 84
+$$
+
+# Desarrollo
+
+## Espacio muestral
+
+Se visualiza todo el espacio muestral **S**
+
+```{r}
+source("https://raw.githubusercontent.com/rpizarrog/Trabajos-en-R-AD2021/main/scripts/ESPACIO%20MUESTRAL%20pantalones%20camisas%20playeras%20zapatos.R")
+S
+
+N <- nrow(S) # nrow determina la cantidad de observaciones
+```
+
+En caso de que hubiese sólo un artículo de cada tipo de producto de cada marca de cada talla.
+
+-   ¿Cuántas opciones hay de elegir un pantalón de entre todo el espacio muestral? Resp. $18 / 84 = 0.2142 = 21%$
+
+```{r}
+producto <- "PANTALON"
+productos <- subset(S, productos == producto)
+productos
+
+n.productos <- nrow(productos)
+
+paste("Existen ", n.productos, " opciones de elegir un(a) ", producto, " de entre todo el espacio muestral", ", representan ",  round(n.productos / N,4), " o sea ", round(n.productos / N * 100, 2), "%  del total del espacio muestral")
+
+```
+
+-   ¿Cuántas opciones hay de elegir una camisa de entre todo el espacio muestral? Resp. $12 / 84 = 1428 = 14%$
+
+```{r}
+producto <- "CAMISA"
+productos <- subset(S, productos == producto)
+productos
+
+n.productos <- nrow(productos)
+
+paste("Existen ", n.productos, " opciones de elegir un(a) ", producto, " de entre todo el espacio muestral", ", representan ",  round(n.productos / N,4), " o sea ", round(n.productos / N * 100, 2), "%  del total del espacio muestral")
+
+```
+
+-   ¿Cuántas opciones hay de elegir una playera de entre todo el espacio muestral? Resp. $24 / 84 = 0.2857= 28%$
+
+```{r}
+playeras <- subset(S, productos == "PLAYERA")
+playeras
+
+n.playeras <- nrow(playeras)
+
+paste("Existen ", n.playeras, " de opciones de elegir una playera de entre todo el espacio muestral", ", representan ",  round(n.playeras / N,2) * 100, "%  del total del espacio muestral")
+```
+
+# Interpretación
+
+Son ideas personales de los participantes, alumnos sobre lo que se desarrolla, a que conclusiones llegan
+
+Dos o tras párrafos de 60 palabras cada uno aproximadamente
