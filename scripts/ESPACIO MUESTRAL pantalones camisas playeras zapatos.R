@@ -1,6 +1,7 @@
 # Generar data.frame de productos, marcas  y tallas
 
 
+# install.packages("dplyr")
 # Cargar librerías
 library(dplyr)
 
