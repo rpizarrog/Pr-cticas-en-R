@@ -1,12 +1,13 @@
 # Generar data.frame de productos, marcas  y tallas
 
-
+# Instalar antes la librería "dplyr"
 # install.packages("dplyr")
+
 # Cargar librerías
 library(dplyr)
 
 # Hay cuatro tipos de productos
-productos <- c('PANTALON', 'CAMISA', 'PLAYERA', 'ZAPATOS')
+productos <- c('PANTALON', 'CAMISA', 'PLAYERA', 'ZAPATO')
 
 # Todos los productos tienes las mismas tres tipos de marcas
 marcas <- c("X", "Y", "Z")
@@ -31,6 +32,9 @@ tallas.ZAPATOS
 generos <- c("Femenino", "Masculino")
 generos
 
+# La función union() del paquete dplyr permite unir 
+# conjuntos de datos
+# LA función cbind() del paquete base agrega columnas
 
 pantalones <- union(cbind("productos" = productos[1], merge(marcas, tallas.PANTALON), "generos" = generos[1]), 
                     cbind("productos" = productos[1],merge(marcas, tallas.PANTALON), "generos" = generos[2]))
@@ -59,5 +63,6 @@ zapatos
 # ESPACIO MUESTRAL
 S <- rbind(pantalones, camisas, playeras, zapatos)
 
+# La función names() indica el nombre a columnas de un conjunto de datos o data.frame
 names(S) <- c("productos", "marcas", "tallas", "generos")
 S
