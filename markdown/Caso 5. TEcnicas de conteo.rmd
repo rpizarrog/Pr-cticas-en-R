@@ -154,7 +154,11 @@ $$
 
 Se visualiza todo el espacio muestral **S**
 
-```{r}
+La función *source()* permite cargar funciones y *scripts*, para este ejemplo se carga un *script* que contiene la construcción del espacio muestral.
+
+}La función *nrow()* devuelve la cantidad de registros u observaciones de un *data.frame*.
+
+```{r message=FALSE, warning=FALSE}
 source("https://raw.githubusercontent.com/rpizarrog/Trabajos-en-R-AD2021/main/scripts/ESPACIO%20MUESTRAL%20pantalones%20camisas%20playeras%20zapatos.R")
 S
 
@@ -164,6 +168,7 @@ N <- nrow(S) # nrow determina la cantidad de observaciones
 En caso de que hubiese sólo un artículo de cada tipo de producto de cada marca de cada talla.
 
 -   ¿Cuántas opciones hay de elegir un pantalón de entre todo el espacio muestral? Resp. $18 / 84 = 0.2142 = 21%$
+-   La función *subset()* en R significa hacer un filtro, entre paréntesis se le indica de cual *data.frame* procesar seguido de alguna condición que es precisamente la que hace el filtro. *subset(data.frame, condicion)*
 
 ```{r}
 producto <- "PANTALON"
@@ -192,16 +197,105 @@ paste("Existen ", n.productos, " opciones de elegir un(a) ", producto, " de entr
 -   ¿Cuántas opciones hay de elegir una playera de entre todo el espacio muestral? Resp. $24 / 84 = 0.2857= 28%$
 
 ```{r}
-playeras <- subset(S, productos == "PLAYERA")
-playeras
+producto <- "PLAYERA"
+productos <- subset(S, productos == producto)
+productos
 
-n.playeras <- nrow(playeras)
+n.productos <- nrow(productos)
 
-paste("Existen ", n.playeras, " de opciones de elegir una playera de entre todo el espacio muestral", ", representan ",  round(n.playeras / N,2) * 100, "%  del total del espacio muestral")
+paste("Existen ", n.productos, " opciones de elegir un(a) ", producto, " de entre todo el espacio muestral", ", representan ",  round(n.productos / N,4), " o sea ", round(n.productos / N * 100, 2), "%  del total del espacio muestral")
 ```
+
+-   ¿Cuántas opciones hay de elegir un zapato de entre todo el espacio muestral? Resp. $30 / 84 = 0.2857= 28%$
+
+```{r}
+producto <- "ZAPATO"
+productos <- subset(S, productos == producto)
+productos
+
+n.productos <- nrow(productos)
+
+paste("Existen ", n.productos, " opciones de elegir un(a) ", producto, " de entre todo el espacio muestral", ", representan ",  round(n.productos / N,4), " o sea ", round(n.productos / N * 100, 2), "%  del total del espacio muestral")
+```
+
+## Diagrama de Arbol
+
+Es una representación gráfica que permite representar probabilidades de un espacio muestral.
+
+![Diagrama de árbol para probabilidad de productos](images/Arbol%20de%20decisiOn%20productos-02.jpeg "Diagrama de árbol para probabilidad de productos")
+
+-   La suma de las frecuencias debe ser el total de los productos.
+
+-   La suma de las frecuencias relativas o probabilidades relativas debe ser 1.
+
+-   La suma de las probabilidades en valores % debe ser 100%.
 
 # Interpretación
 
-Son ideas personales de los participantes, alumnos sobre lo que se desarrolla, a que conclusiones llegan
+Son ideas personales de los participantes, alumnos sobre lo que se desarrolla, a que conclusiones llegan.
 
-Dos o tras párrafos de 60 palabras cada uno aproximadamente
+De las preguntas 1 a 3, conteste descriptivamente, de las preguntas 4 en adelante realice el cálculo de probabilidades y muestre los resultados como lo indica la pregunta 4.
+
+1.  ¿Para que sirven técnicas de conteo aditivas y multiplicativas?
+
+2.  Que representa un diagrama de árbol e términos de probabilidad?
+
+3.  ¿Cómo determinar probabilidades?
+
+4.  ¿Cuántas y cuáles ocasiones existen para elegir un producto que sea pantalón y del género Femenino?, ¿cuál es su probabilidad?
+
+    ```{r}
+    producto <- "PANTALON"
+    genero <- "Femenino"
+    productos <- subset(S, productos == producto & generos == genero)
+    productos
+
+    n.productos <- nrow(productos)
+
+    paste("Existen ", n.productos, " opciones de elegir un(a) ", producto, " ", genero, " de entre todo el espacio muestral", ", representan ",  round(n.productos / N,4), " o sea ", round(n.productos / N * 100, 2), "%  del total del espacio muestral")
+
+    ```
+
+5.  ¿Cuántas y cuáles ocasiones existen para elegir un producto que sea pantalón y del género Masculino?, ¿cuál es su probabilidad?
+
+```{r}
+# Pendiente semilar al código de la pregunta 4
+
+```
+
+6.  ¿Cuáles, cuántas opciones y cuál es la probabilidad que existe de elegir unos zapatos de marca X del género Femenino y del número 24?
+
+```{r}
+producto <- "ZAPATO"
+marca <- "X"
+genero <- "Femenino"
+talla <- "24"
+
+productos <- subset(S, productos == producto & marcas == marca & tallas == talla & generos == genero )
+productos
+
+n.productos <- nrow(productos)
+
+paste("Existen ", n.productos, " opciones de elegir un(a) ", producto, " ",marca, " ", talla, " ", genero, " de entre todo el espacio muestral", ", representan ",  round(n.productos / N,4), " o sea ", round(n.productos / N * 100, 2), "%  del total del espacio muestral")
+
+```
+
+7.  ¿Cuáles, cuántas opciones y cuál es la probabilidad que existe de elegir unos zapatos de marca Y del género Masculino y del número 28?
+
+```{r}
+# Similar a la pregunta 7
+
+```
+
+8.  ¿Cuáles, cuántas opciones y cuál es la probabilidad que existe de elegir unos zapatos del número 24?
+
+    ```{r}
+    # Peniente
+    ```
+
+9.  ¿Cuáles, cuántas opciones y cuál es la probabilidad que existe de elegir unos zapatos de marca Z del número 22?
+
+```{r}
+# Pendiente
+
+```
