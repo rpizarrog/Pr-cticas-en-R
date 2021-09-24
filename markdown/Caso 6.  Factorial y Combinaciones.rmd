@@ -1,0 +1,152 @@
+---
+title: "Caso 6. Factorial y Combinaciones"
+author: "Rubén Pizarro Gurrola"
+date: "24/9/2021"
+output: html_document
+---
+
+# Objetivo
+
+Construir combinaciones de conjuntos de datos de personas y de nombres de equipos deportivos
+
+# Descripción
+
+A partir de conjuntos datos (valores individuales) realizr combinaciones para conoer el número de las mismas y el acomodo de los valores para su interpretaciín en términos de probabilidad.
+
+-   Cargar librerías
+
+-   Cargar los datos
+
+-   Identifiar fórmula de factorial
+
+-   Identificar fórmula de combinaciones
+
+-   Determinar probabilidades a partir del espacio muestral de las combinaciones
+
+-   Interpretar el caso
+
+## Cargar librerías
+
+Se van a utilizar funciones de la librería "*gtools*" por lo que se necesario instalarla previamente: *install.packages("gtools").*
+
+Esta librería permitirá hacer combinaciones y permutaciones.
+
+```{r warning=FALSE}
+# install.packages("gtools")
+library(gtools)
+```
+
+# Marco conceptual
+
+Para hacer combinaciones es necesario identificar la importancia del valor factorial de un número
+
+## Factorial
+
+El factorial de un número es el producto de $n$ por todos los naturales menores que el y se representa con el $!n$, entonces $n!=n\times(n-1)...\times 1$
+
+La función factorial es una fórmula matemática representada por el signo de exclamación $!$. En la fórmula Factorial se deben multiplicar todos los números enteros y positivos que hay entre el número que aparece en la fórmula y el número $1$.
+
+Ejemplo: hallar el factorial de 6 o se sea $6!=6x5x4x3x2x1=720$
+
+## Combinaciones
+
+La regla de conteo de *combinaciones* permite contar el número de resultados experimentales cuando el experimento consiste en $r$ objetos de un conjunto (usualmente mayor) de $n$ objetos.
+
+### Fórmula de combinaciones
+
+$$
+S=Cn\binom{n}{r} = \frac{n!}{(r!\cdot(n-r)!)}\\Cn \text{ es el número de combinaciones posibles}\\ \binom{n}{r} \text {es símbolo de combinar n elements en grupos de r}\\ n \text{ es el total de elementos}\\ r \text{ es de cuantos en cuantos elementos se hacen grupos}
+$$
+
+## Ejemplo 1. Nombres de personas
+
+Se trata de hacer combinaciones con los nombres de cuatro personas: "Oscar", "Paco", "Paty", "Laura" en grupos de 2. Entonces $n=4$, porque hay cuatro nombres o elementos y $r=2$ porque se trata de agrupar de dos en dos.
+
+¿Cuántas combinaciones deberá haber?
+
+-   Oscar y Paco
+
+-   Oscar y Paty
+
+-   Oscar y Laura
+
+-   Paco y Paty
+
+-   ... ...
+
+-   Paty y Laura
+
+```{r}
+nombres <- c("Oscar", "Paco", "Paty", "Laura")
+n <- length(nombres)
+r <- 2 # ¿cómo agrupar?
+
+Cn <- factorial(n) / (factorial(r) * factorial(n-r))
+
+paste("Existen ", Cn , " posibles combinaciones del total de ", n , " nombres ", " en grupos de ", r ," en ", r)
+```
+
+## Ejemplo 2. Nombres de equipos de fútbol en México.
+
+Se trata de hacer combinaciones con los nombres de seis equipos de fútbolo: "Atlas", "Guadalajara", "Monterrey", "América", "Cruz Azul", "Santos" en grupos de 3. Entonces $n=6$, porque hay seis equipos o elementos y $r=3$ porque se trata de agrupar de tres en tres.
+
+¿Cuántas combinaciones deberá haber?
+
+```{r}
+equipos <- c("Atlas", "Guadalajara", "Monterrey", "América", "Cruz Azul", "Santos")
+n <- length(equipos)
+r <- 3 # ¿cómo agrupar?
+
+Cn <- factorial(n) / (factorial(r) * factorial(n-r))
+
+paste("Existen ", Cn , " posibles combinaciones del total de ", n , " equipos ", " en grupos de ", r ," en ", r)
+```
+
+# Desarrollo
+
+Si bien la fórmula de combinaciones indica el número de combinaciones posibles de un conjunto de elementos pero lo que se desea conocer es ¿cómo se forman las combinaciones o cómo se verían los grupos formados?.
+
+Se utiliza la función combination
+
+## Combinaciones de nombres
+
+Se utiliza la función *combinations()* y se requiere por lo menos tres atributos:
+
+-   La cantidad de elementos n
+
+-   Los grupos de cuanto en cuanto se forman r
+
+-   y los elementos, o sea en este caso el vector v
+
+### Nombres de personas
+
+Se muestran las posibles combinaciones de los nombres de personas. Las función *combinations()* ordena los valores alfabéticamente y luego construye las combinaciones.
+
+```{r}
+nombres
+
+Cn.nombres <- combinations(n = length(nombres), r = 2, v = nombres)
+Cn.nombres
+
+```
+
+### Nombres de equipos de fútbol
+
+Se muestran las posibles combinaciones de los nombres de equipos de fútbol.
+
+```{r}
+equipos
+Cn.equipos <- combinations(n = length(equipos), r = 3, v = equipos)
+Cn.equipos
+
+```
+
+¿Para qué sirve encontrar el número de combinaciones y la forma en que se agrupan?
+
+Eso sería el espacio muestral que ya construído éste, permite hacer interpretaciones en términos probabilísticos.
+
+# Interpretación
+
+Son ideas personales de los participantes, alumnos sobre lo que se desarrolla, a que conclusiones llegan
+
+Dos o tras párrafos de 60 palabras cada uno aproximadamente
