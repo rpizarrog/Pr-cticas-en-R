@@ -7,21 +7,23 @@ output: html_document
 
 # Objetivo
 
-Construir combinaciones de conjuntos de datos de personas y de nombres de equipos deportivos
+Construir combinaciones de conjuntos de datos de personas y de nombres de equipos deportivos.
 
 # Descripción
 
-A partir de conjuntos datos (valores individuales) realizr combinaciones para conoer el número de las mismas y el acomodo de los valores para su interpretaciín en términos de probabilidad.
+A partir de conjuntos datos (valores individuales) realizar **combinaciones** para conocer el número de las mismas y el acomodo de los valores para su interpretación en términos de probabilidad.
 
 -   Cargar librerías
 
 -   Cargar los datos
 
--   Identifiar fórmula de factorial
+-   Identificar fórmula de factorial
 
 -   Identificar fórmula de combinaciones
 
 -   Determinar probabilidades a partir del espacio muestral de las combinaciones
+
+-   Encontrar probabilidad con base en frecuencia o contabilizar eventos específicos del espacio muestral
 
 -   Interpretar el caso
 
@@ -46,7 +48,7 @@ El factorial de un número es el producto de $n$ por todos los naturales menores
 
 La función factorial es una fórmula matemática representada por el signo de exclamación $!$. En la fórmula Factorial se deben multiplicar todos los números enteros y positivos que hay entre el número que aparece en la fórmula y el número $1$.
 
-Ejemplo: hallar el factorial de 6 o se sea $6!=6x5x4x3x2x1=720$
+Ejemplo: hallar el factorial de 6 o se sea $6!=6\times5\times4\times3\times2\times1=720$
 
 ## Combinaciones
 
@@ -55,12 +57,12 @@ La regla de conteo de *combinaciones* permite contar el número de resultados ex
 ### Fórmula de combinaciones
 
 $$
-S=Cn\binom{n}{r} = \frac{n!}{(r!\cdot(n-r)!)}\\Cn \text{ es el número de combinaciones posibles}\\ \binom{n}{r} \text {es símbolo de combinar n elements en grupos de r}\\ n \text{ es el total de elementos}\\ r \text{ es de cuantos en cuantos elementos se hacen grupos}
+S=Cn\binom{n}{r} = \frac{n!}{(r!\cdot(n-r)!)}\\S \text{ es el espacio muestral y la cantidad de combinaciones} \\Cn \text{ es el número de combinaciones posibles}\\ \binom{n}{r} \text {es símbolo de combinar n elements en grupos de r}\\ n \text{ es el total de elementos}\\ r \text{ es de cuantos en cuantos elementos se hacen grupos}
 $$
 
 ## Ejemplo 1. Nombres de personas
 
-Se trata de hacer combinaciones con los nombres de cuatro personas: "Oscar", "Paco", "Paty", "Laura" en grupos de 2. Entonces $n=4$, porque hay cuatro nombres o elementos y $r=2$ porque se trata de agrupar de dos en dos.
+Se trata de hacer combinaciones con los nombres de cuatro personas: "Oscar", "Paco", "Paty", "Laura" ... ... en grupos de 2. Entonces $n=4$, porque hay cuatro nombres o elementos y $r=2$ porque se trata de agrupar de dos en dos.
 
 ¿Cuántas combinaciones deberá haber?
 
@@ -77,7 +79,7 @@ Se trata de hacer combinaciones con los nombres de cuatro personas: "Oscar", "Pa
 -   Paty y Laura
 
 ```{r}
-nombres <- c("Oscar", "Paco", "Paty", "Laura")
+nombres <- c("Oscar", "Paco", "Paty", "Laura", "Rubén", "Luis", "Lucy", "Alberto", "Juan")
 n <- length(nombres)
 r <- 2 # ¿cómo agrupar?
 
@@ -88,14 +90,14 @@ paste("Existen ", Cn , " posibles combinaciones del total de ", n , " nombres ",
 
 ## Ejemplo 2. Nombres de equipos de fútbol en México.
 
-Se trata de hacer combinaciones con los nombres de seis equipos de fútbolo: "Atlas", "Guadalajara", "Monterrey", "América", "Cruz Azul", "Santos" en grupos de 3. Entonces $n=6$, porque hay seis equipos o elementos y $r=3$ porque se trata de agrupar de tres en tres.
+Se trata de hacer combinaciones con los nombres de seis equipos de fútbol: "Atlas", "Guadalajara", "Monterrey", "América", "Cruz Azul", "Santos" en grupos de 3. Entonces $n=6$, porque hay seis equipos o elementos y $r=5$ porque se trata de agrupar de tres en tres.
 
 ¿Cuántas combinaciones deberá haber?
 
 ```{r}
-equipos <- c("Atlas", "Guadalajara", "Monterrey", "América", "Cruz Azul", "Santos")
+equipos <- c("Atlas", "Guadalajara", "Monterrey", "América", "Cruz Azul", "Santos", "Mazatlán", "Tijuana", "León")
 n <- length(equipos)
-r <- 3 # ¿cómo agrupar?
+r <- 5 # ¿cómo agrupar?
 
 Cn <- factorial(n) / (factorial(r) * factorial(n-r))
 
@@ -136,7 +138,7 @@ Se muestran las posibles combinaciones de los nombres de equipos de fútbol.
 
 ```{r}
 equipos
-Cn.equipos <- combinations(n = length(equipos), r = 3, v = equipos)
+Cn.equipos <- combinations(n = length(equipos), r = 5, v = equipos)
 Cn.equipos
 
 ```
@@ -147,6 +149,27 @@ Eso sería el espacio muestral que ya construído éste, permite hacer interpret
 
 # Interpretación
 
-Son ideas personales de los participantes, alumnos sobre lo que se desarrolla, a que conclusiones llegan
+¿En cuántas ocasiones aparece el nombre de Laura en combinaciones e dos en dos?. Aparece tres ocasiones. ¿En cuántas ocasiones aparece el nombre de Oscar en las combinaciones de dos en dos?, Aparece tres ocasiones.
 
-Dos o tras párrafos de 60 palabras cada uno aproximadamente
+El resultado de las combinaciones permite construir un espacio muestral que habilita o induce conocer la cantidad de ocasiones de hay de un evento conforme a todo el espacio muestra, es decir frecuencia.
+
+En las combinaciones de nombres de dos en dos, ¿en cuántas ocasiones existe Laura y Oscar juntos o contiguos y en ese orden?. Se utiliza la función *subset()* para hacer filtros y responder a las preguntas.
+
+```{r}
+filtro <- subset(Cn.nombres, Cn.nombres[,1] == "Laura" & Cn.nombres[,2] == "Oscar")
+filtro
+frecuencia <- nrow(filtro)
+
+paste("Existen ", frecuencia, " ocasiones en que se encuentran Laura y Oscar juntos en ese orden, de un total de ", nrow(Cn.nombres), " representan ", round(frecuencia / nrow(Cn.nombres) * 100, 2), "%")
+
+```
+
+En las combinaciones de nombres de dos en dos, ¿en cuántas ocasiones existe Oscar en la primer columna de todo el espacio muestral?
+
+```{r}
+filtro <- subset(Cn.nombres, Cn.nombres[,1] == "Oscar")
+filtro
+frecuencia <- nrow(filtro)
+
+paste("Existen ", frecuencia, " ocasiones en que se encuentran Oscar en la primer columna  , de un total de ", nrow(Cn.nombres), " representan ", round(frecuencia / nrow(Cn.nombres) * 100, 2), "%")
+```
