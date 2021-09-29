@@ -13,7 +13,7 @@ bibliography: references.bib
 
 # Objetivo
 
-Desarrollar ejercicios para encontrar la probabilida de eventos de un espacio muestral
+Desarrollar ejercicios para encontrar la probabilidad de eventos de un espacio muestral
 
 # Descripción
 
@@ -88,7 +88,62 @@ paste("La probabilidad de que al lanzar el dado sea cinco es : ", n , " de entre
 
 # Desarrollo
 
-Los pasos que se siguen orientados a como lo identifica la descripción
+## Cargar librerías
+
+Se cargan librerías necesarias para distintos ejercicios
+
+```{r}
+library(gtools)
+
+```
+
+## Ejercicios
+
+### Lanzar dos dados: 
+
+![](images/dos%20dados.jfif)
+
+¿Que probabilidad existe de que al lanzar los dos dados de que salga 10 la suma de los valores cara arriba de cada dado.
+
+#### Crear el espacio muestral de los dados
+
+A partir de un vector dado del 1 al 6 que son los valores del dado generar permutaciones en donde se puedan repetir los valores del dado.
+
+Poner nombre con la función *names()* nombres de columnas al conjunto de datos *lanzar_dados.*
+
+Con la función *cbind()* se agrega una columna al conjunto de datos.
+
+Con *apply()* se hace la suma de cada renglón del conjunto de datos *lanzar_dados*.
+
+```{r}
+dado <- c(1,2,3,4,5,6)
+
+lanzar_dados <- data.frame(permutations(n=6, r = 2, v = dado, repeats.allowed = TRUE))
+
+names(lanzar_dados) <- c("dado1", "dado2")
+
+lanzar_dados <- cbind(lanzar_dados, suma = apply(X = lanzar_dados, MARGIN = 1, FUN = sum))
+
+lanzar_dados
+
+```
+
+#### Probabilidad de dos dados
+
+Encontrar en cuantas ocasiones la suma de los dos dados es diez, se hace con la función *subset()*
+
+```{r}
+suma <- 10
+N <- nrow(lanzar_dados) # Cantidad de obervaciones
+filtro <- subset(lanzar_dados, suma == 10)
+filtro
+
+n <- nrow(filtro) # Cantidad de eventos que cumplen una condición
+n
+
+
+paste("Existen ", n, " alternativas de que la suma de lanzamiento de dos dados sea ", suma, " de un total de ",N, " lo que representa ", round(n/N * 100,2), "%", "probable ")
+```
 
 # Interpretación
 
