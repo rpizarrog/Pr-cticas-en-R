@@ -1,4 +1,7 @@
 # Funciones
+# install.packages("dplyr")
+library(dplyr)
+
 media_geom <- function (valores) {
   n <- length(valores)
   multiplicacion <- 1
@@ -27,6 +30,7 @@ f.repartir.cartas <- function() {
   sample(x = mazo,size = 1)
 }
 
+
 f.determinar.puntos <- function(carta) {
   if (carta == "A") {
     puntos = 1
@@ -36,4 +40,19 @@ f.determinar.puntos <- function(carta) {
     puntos = as.numeric(carta)
   }
   puntos
+}
+
+
+
+f_sumar_cartas <- function(datos){
+  datos <- datos %>%
+      mutate(valor1 = ifelse (C1 == "A", 1, 
+              ifelse(C1 =="J" | C1 == "Q" | C1 == "K",
+               10,as.numeric(C1))))
+  
+  datos <- datos %>%
+    mutate(valor2 = ifelse (C2 == "A", 1, 
+                            ifelse(C2 =="J" | C2 == "Q" | C1 == "K",
+                                   10,as.numeric(C2))))
+  datos
 }
