@@ -43,8 +43,7 @@ f.determinar.puntos <- function(carta) {
 }
 
 
-
-f_sumar_cartas <- function(datos){
+f.sumar.cartas <- function(datos){
   datos <- datos %>%
       mutate(valor1 = ifelse (C1 == "A", 1, 
               ifelse(C1 =="J" | C1 == "Q" | C1 == "K",
