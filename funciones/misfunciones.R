@@ -51,7 +51,9 @@ f.sumar.cartas <- function(datos){
   
   datos <- datos %>%
     mutate(valor2 = ifelse (C2 == "A", 1, 
-                            ifelse(C2 =="J" | C2 == "Q" | C1 == "K",
+                            ifelse(C2 =="J" | C2 == "Q" | C2 == "K",
                                    10,as.numeric(C2))))
+  datos <- datos %>%
+    mutate(suma = valor1 + valor2)
   datos
 }
