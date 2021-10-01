@@ -361,7 +361,7 @@ paste("Existe ", n, "eventos en donde los puntos sumados de fichas de dominó so
 
 # Interpretación
 
-¿Cual será el rango o intervalo de clase conforme a la suma de puntos existe mayor probabilidad de obtener esos puntos?
+¿Cual será el rango o intervalo de clase conforme a la suma de puntos de las siete fichas repartidas de dominó en donde existe mayor probabilidad de obtener esos puntos?
 
 ```{r}
 print ("Describir habiendo analizado la tabla de frecuencia de la suma de puntos de las siete fichas de dominó")
