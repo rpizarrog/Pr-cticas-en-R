@@ -75,7 +75,9 @@ Sea A el evento de que resulte 7 y B el evento de que salga 11. Ahora bien, para
 
 Como todos los puntos muestrales tienen la misma probabilidad, se tiene P(A) = 1/6 y P(B) = 1/18.
 
-Los eventos A y B son MUTUAMENTE EXCLUYENTES, ya que un total de 7 y uno de 11 no pueden ocurrir en el mismo lanzamiento. $$
+Los eventos A y B son MUTUAMENTE EXCLUYENTES, ya que un total de 7 y uno de 11 no pueden ocurrir en el mismo lanzamiento. 
+
+$$
 P(A) = \frac{6}{36} = \frac{1}{6} \\
 P(B) = \frac{2}{36} = \frac{1}{18} \\
 \therefore \\
@@ -85,6 +87,8 @@ $$
 ## Ejercicio 3
 
 ## Eventos independientes
+
+![](images/canicas.jfif)
 
 Dos eventos son **independientes** si el resultado del segundo evento no es afectado por el resultado del primer evento. Si *A* y *B* son eventos independientes, la probabilidad de que ambos eventos ocurran es el producto de las probabilidades de los eventos individuales. [@hotmath]
 
@@ -110,11 +114,15 @@ P.roja; P.verde; P.azul
 
 ```
 
+$$
+Prob = \frac{n}{N} \ \therefore \ Prob = \frac{canicas}{S.muestral}
+$$
+
 Ya que la primera canica es reemplazada, el tamaño del espacio muestral (9) no cambia de la primera sacada a la segunda así los eventos son independientes.
 
-\$\$ P(Azul) = \frac{3}{9} = 0.3333 \\ P(Verde) = \frac{2}{9} = 0.2222 \\ \therefore\\ P(Azul \text{ y } Verde) = 0.3333 \times 0.2222 = 0.0740
-
-\$\$
+$$
+P(Azul) = \frac{3}{9} = 0.3333 \ P(Verde) = \frac{2}{9} = 0.2222 \ \therefore\ P(Azul \text{ y } Verde) = 0.3333 \times 0.2222 = 0.0740
+$$
 
 ```{r}
 P.verde.y.azul <- P.verde * P.azul
@@ -133,9 +141,10 @@ Una caja contiene 4 canicas rojas, 3 canicas verdes y 2 canicas azules. Una cani
 
 Ya que la primera canica no es reemplazada, el tamaño del espacio muestral para la primera canica (9) es cambiado para la segunda canica (8) así los eventos son dependientes.
 
-\$\$ P(Azul) = \frac{3}{9} = 0.3333 \\ P(Verde) = \frac{2}{9} = 0.2500 \\ \therefore\\ P(Azul \text{ y } Verde) = 0.3333 \times 0.2500 = 0.0833
+$$ 
+P(Azul) = \frac{3}{9} = 0.3333 \\ P(Verde) = \frac{2}{8} = 0.2500 \\ \therefore\\ P(Azul \text{ y } Verde) = 0.3333 \times 0.2500 = 0.0833
 
-\$\$
+$$
 
 ```{r}
 P.verde <- 3/9
@@ -143,6 +152,40 @@ P.azul <- 2/8
 P.verde.y.azul <- P.verde * P.azul
 P.verde.y.azul
 ```
+
+## Ejercicio 4. Quiniela deportiva
+
+La probabilidad de que gane un equipo de fútbol en un partido no tiene que ver con la probabilidad de que gane otro equipo de fútbol. Son eventos independientes.
+
+América tiene una probabilidad de ganarle a Atlas del 0.33
+Cruz Azul tiene una probabilidad de ganarle a Guadalajara de 0.33
+Santos tiene una probabilidad de ganarle a Monterrey de 0.33
+
+¿Cuál es la probabilidad de que gane América y Cruz Azul y Santos?
+
+Se multiplican las probabilidades porque son eventos independientes en donde el resultado de un partido no afecta al resutaldo del otro partido.
+```{r}
+P.America <- 0.3333
+P.CruzAul <- 0.3333
+P.Santos <- 0.3333
+
+P.America.CruzAzul.Santos <- P.America * P.CruzAul* P.Santos
+P.America.CruzAzul.Santos
+
+paste("La pobabilidd de que ganen los tres equipos es de ", round(P.America.CruzAzul.Santos * 100,2  ), "%")
+```
+## Ejercicio 5
+
+Carlos tiene un mazo de 15 cartas numeradas del 1 al 15. Saca una carta al azar, ve el número, y la revuelve de nuevo en el mazo. 
+
+¿Cuál es la probabilidad de que NO le salga una carta menor o igual a 5 en el primer intento, pero que SI le salga una carta menor o igual a 5 en el segundo intento? 
+Fuente: https://content.nroc.org/Algebra.HTML5/U12L2T2/TopicText/es/text.html
+
+Se trata de eventos independiente porque la carta se devuelve.
+
+
+
+
 
 # Interpretación
 
