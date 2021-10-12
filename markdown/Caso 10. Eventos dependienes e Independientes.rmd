@@ -1,0 +1,153 @@
+---
+title: "Caso 10. Eventos Independientes y Dependientes"
+author: "Rubén Pizarro Gurrola"
+date: "6/10/2021"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_float: true
+    toc_depth: 6
+bibliography: references.bib
+---
+
+# Objetivo
+
+Determina probabilidades para eventos dependientes e independientes
+
+# Descripción
+
+Se cargan librerías necesarias Se definen los conceptos eventos dependientes e independientes Se desarrollan ejecicios para eventos dependientes e independientes.
+
+# Marco teórico
+
+A menudo resulta más práctico calcular la probabilidad de algún evento a partir de las probabilidades conocidas de otros eventos. Esto puede ser cierto si el evento en cuestión se puede representar como la unión de otros dos eventos o como el complemento de algún evento [@walpole2012].
+
+Si A y B son dos conjuntos con eventos similares, entonces se puede aplicar regla aditiva de probabilidad y establecer la siguiente fórmula.
+
+$$
+P(A\cup B) = P(A) + P(B) - P(A\cap B)
+$$
+
+Los eventos mutuamente exclusivos son cosas que no pueden ocurrir al mismo tiempo. Por ejemplo, no se puede correr hacia adelante y hacia atrás simultáneamente. [@datascience2019].
+
+Las acciones "correr hacia adelante" y "correr en reversa" son mutuamente excluyentes.
+
+Lanzar una moneda también puede ser de este tipo de evento. No se puede lanzar una moneda y obtener águila o sello al mismo tiempo. Así que "obtener sello" y "obtener águila" son eventos mutuamente exclusivos.
+
+Si NO SON excluyentes, es decir si NO existen elementos en común entonces la regla aditiva sería:
+
+$$
+P(A\cup B) = P(A) + P(B)
+$$
+
+Las dos imágenes identifican ambos casos.
+
+![](images/eventos%20excluyentes%20e%20incluyentes.PNG){width="907"}
+
+Si A y B son mutuamente excluyentes, A ∩ B = 0 y entonces P(A ∩ B) = P(ϕ) = 0. [@walpole2012].
+
+# Desarrollo
+
+## Ejercicio 1
+
+Al final del semestre John se va a graduar en la facultad de ingeniería industrial de una universidad. Después de tener entrevistas en dos empresas en donde quiere trabajar, determina que la probabilidad que tiene de lograr una oferta de empleo en la empresa A es 0.8, y que la probabilidad de obtenerla en la empresa B es 0.6. Si, por otro lado, considera que la probabilidad de recibir ofertas de ambas empresas es 0.5,
+
+¿Qué probabilidad tiene de obtener al menos una oferta de esas dos empresas? [@walpole2012]. La respuesta a la pregunta se refiere a la unión de los dos eventos.
+
+¿Son eventos EXCLUYENTES O INCLUYENTES?, Incluyentes, porque hay una probabilidad de que sucedan al mismo tiempo. Entonces:
+
+$$
+P(A) = 0.8 \\
+P(B) = 0.6 \\
+P(A\cap B) = 0.5 \\
+\therefore \\
+P(A \cup B) = P(A) + P(B) - P(A\cap B) = 0.8 + 0.6 - 0.5 = 0.9
+$$
+
+## Ejercicio 2
+
+¿Cuál es la probabilidad de obtener un total de 7 u 11 cuando se lanza un par de dados? [@walpole2012].
+
+La respuesta es nuevamente la unión de ambos eventos.
+
+Sea A el evento de que resulte 7 y B el evento de que salga 11. Ahora bien, para 6 de los 36 puntos muestrales ocurre un total de 7 y sólo para 2 de ellos ocurre un total de 11.
+
+Como todos los puntos muestrales tienen la misma probabilidad, se tiene P(A) = 1/6 y P(B) = 1/18.
+
+Los eventos A y B son MUTUAMENTE EXCLUYENTES, ya que un total de 7 y uno de 11 no pueden ocurrir en el mismo lanzamiento. $$
+P(A) = \frac{6}{36} = \frac{1}{6} \\
+P(B) = \frac{2}{36} = \frac{1}{18} \\
+\therefore \\
+P(A\cup B) = P(A) + P(B) = \frac{1}{6} + \frac{1}{18} = \frac{2}{9} = 0.22 = 22%
+$$
+
+## Ejercicio 3
+
+## Eventos independientes
+
+Dos eventos son **independientes** si el resultado del segundo evento no es afectado por el resultado del primer evento. Si *A* y *B* son eventos independientes, la probabilidad de que ambos eventos ocurran es el producto de las probabilidades de los eventos individuales. [@hotmath]
+
+$$
+P(A \text {y}B) = P(A)\cdot P(B)
+$$
+
+Una caja contiene 4 canicas rojas, 3 canicas verdes y 2 canicas azules. Una canica es eliminada de la caja y luego reemplazada. Otra canica se saca de la caja.
+
+¿Cuál es la probabilidad de que la primera canica sea azul y la segunda canica sea verde?
+
+```{r}
+rojas <- 4
+verdes <- 3
+azules <- 2
+S.muestral <- sum(rojas, verdes, azules)
+S.muestral
+P.roja <- rojas / S.muestral 
+P.verde <- verdes / S.muestral
+P.azul <- azules /S.muestral
+
+P.roja; P.verde; P.azul
+
+```
+
+Ya que la primera canica es reemplazada, el tamaño del espacio muestral (9) no cambia de la primera sacada a la segunda así los eventos son independientes.
+
+\$\$ P(Azul) = \frac{3}{9} = 0.3333 \\ P(Verde) = \frac{2}{9} = 0.2222 \\ \therefore\\ P(Azul \text{ y } Verde) = 0.3333 \times 0.2222 = 0.0740
+
+\$\$
+
+```{r}
+P.verde.y.azul <- P.verde * P.azul
+P.verde.y.azul
+```
+
+## Eventos dependientes
+
+Dos eventos son dependientes si el resultado del primer evento afecta el resultado del segundo evento así que la probabilidad es cambiada. En el ejemplo anterior, si la primera canica no es reemplazada, el espacio muestral para el segundo evento cambia y así los eventos son dependientes. [@hotmath].
+
+La probabilidad de que ambos eventos ocurran es el producto de las probabilidades de los eventos individuales:
+
+Una caja contiene 4 canicas rojas, 3 canicas verdes y 2 canicas azules. Una canica es eliminada de la caja y no es reemplazada. Otra canica se saca de la caja.
+
+¿Cuál es la probabilidad de que la primera canica sea azul y la segunda canica sea verde?
+
+Ya que la primera canica no es reemplazada, el tamaño del espacio muestral para la primera canica (9) es cambiado para la segunda canica (8) así los eventos son dependientes.
+
+\$\$ P(Azul) = \frac{3}{9} = 0.3333 \\ P(Verde) = \frac{2}{9} = 0.2500 \\ \therefore\\ P(Azul \text{ y } Verde) = 0.3333 \times 0.2500 = 0.0833
+
+\$\$
+
+```{r}
+P.verde <- 3/9
+P.azul <- 2/8
+P.verde.y.azul <- P.verde * P.azul
+P.verde.y.azul
+```
+
+# Interpretación
+
+Son ideas personales de los participantes, alumnos sobre lo que se desarrolla, a que conclusiones llegan
+
+Dos o tras párrafos de 60 palabras cada uno aproximadamente
+
+# Bibliografía
