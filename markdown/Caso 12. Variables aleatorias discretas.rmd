@@ -1,0 +1,626 @@
+---
+title: "Caso 12. Variables aleatorias discretas"
+author: "Rubén Pizarro"
+date: "18/10/2021"
+output: 
+  html_document: 
+    toc: yes
+    toc_depth: 5
+    code_folding: hide
+    toc_float: yes
+    number_sections: yes
+bibliography: references.bib
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+# Objetivo
+
+Resolver cuestiones y preguntas de probabilidad mediante la
+identificación de variables, funciones de probabilidad, funciones
+acumuladas y visualización gráficas relacionados con variables
+aleatorias discretas.
+
+# Descripción
+
+Identificar casos relacionados con variables aleatorias discretas para
+identificar mediante programación R y *markdown* las variables
+discretas, las funciones de probabilidad de cada variable, la función
+acumulada y su visualización gráfica para su adecuada interpretación.
+
+# Fundamento teórico
+
+Una variable aleatoria es una descripción numérica del resultado de un
+experimento [@anderson_estadistica_2008].
+
+Las variables aleatorias deben tomar valores numéricos. En efecto, una
+variable aleatoria asocia un valor numérico a cada uno de los resultados
+experimentales.
+
+El valor numérico de la variable aleatoria depende del resultado del
+experimento. Una variable aleatoria puede ser discreta o continua,
+depende del tipo de valores numéricos que asuma.
+[@anderson_estadistica_2008]. Para este documento se tratan únicamente
+variables del tipo discreto.
+
+En cualquier experimento aleatorio, los resultados se presentan al azar;
+así, a este se le denomina variable aleatoria. Por ejemplo, lanzar un
+dado constituye un experimento: puede ocurrir cualquiera de los seis
+resultados posibles. Cada valor de la variable aleatoria se relaciona
+con una probabilidad que indica la posibilidad de un resultado
+determinado[@lind_estadistica_2015]
+
+En su libro [@walpole_probabilidad_2012] define que una variable
+aleatoria es una función que asocia un número real con cada elemento del
+espacio muestral.
+
+Una función de probabilidad, una función de masa de probabilidad o una
+distribución de probabilidad de la variable aleatoria discreta X si,
+para cada resultado x posible.
+
+-   
+
+    1.  Toda función de probabilidad debe ser mayor o igual que $0$.
+        $$f(x) \geq 0$$
+
+-   
+
+    2.  La suma de las probabilidad de todas las variables $x$ debe ser
+        igual a $1$ o la suma de los valores de cada función de
+        probabilidad con respecto a $x$ debe ser $1$ $$\sum _xf(x) = 1$$
+
+-   
+
+    3.  La probabilidad de cada variable $x$ es igual a la función de
+        probabilidad con respeto a $x$ $$P(X=x) = f(x)$$
+        [@walpole_probabilidad_2012]
+
+Por otra parte, la función de la distribución acumulativa F(x) ó
+probabilidad acumulada de una variable aleatoria discreta $X$ con
+distribución de probabilidad $f(x)$ está dada por la suma de sus
+probabilidades de $t$ siendo $t$ menor o igual a $x$. Es decir, la
+probabilidad acumulada suma los valores de las funciones de probabilidad
+a partir del valor inicia de $x$. El valor final con respecto a valor
+final de $x$ debe ser igual a 1.
+$$F(x)=P(X \le x) = \sum_{t \le x}f(t)$$ [@walpole_probabilidad_2012]
+
+Ejemplo 1:
+
+Se hace un estudio a personas para conocer preguntarles ¿cuántas
+personas viven en su casa?, la variable aleatoria es discreta porque hay
+valores entre uno y seis. Son números enteros naturales.
+
+Se muestra una tabla de distribución de probabilidad.
+
++----------------------+----------------------+----------------------+
+| Variable aleatoria   | Frecuencia relativa  | Probabilidad         |
+|                      | = Probabilidad       | Acumulada            |
+| Cuántas personas     |                      |                      |
+| viven en casa        |                      |                      |
++:====================:+:====================:+:====================:+
+| 1                    | 0.10                 | 0.10                 |
++----------------------+----------------------+----------------------+
+| 2                    | 0.14                 | 0.24                 |
++----------------------+----------------------+----------------------+
+| 3                    | 0.16                 | 0.40                 |
++----------------------+----------------------+----------------------+
+| 4                    | 0.30                 | 0.70                 |
++----------------------+----------------------+----------------------+
+| 5                    | 0.20                 | 0.90                 |
++----------------------+----------------------+----------------------+
+| 6                    | 0.10                 | 1.00                 |
++----------------------+----------------------+----------------------+
+
+¿Cuál es la probabilidad de que viva una persona en casa?. R. 0.10
+
+¿Cuál es la probabilidad de elegir a una persona al azar y que responda
+que en su cada viven 4 personas en casa?. R. 0.30
+
+Es posible encontrar o calcular probabilidades conjuntas o que se tenga
+que sumar (unir) probabilidad de acuerdo las variables aleatorias.
+
+¿Cuál es la probabilidad de que se le pregunte a una persona y mencione
+de que en casa viven de 1 a 3 personas. Hay que sumar probabilidades
+$P(1) + P(2) + P(3) = 0.10 + 0.14 + 0.16 = 0.40$ o lo que es lo mismo es
+la probabilidad acumulada para cuando la variable aleatoria esté entre
+uno y tres. $0.40$.
+
+Existe cuestionamientos de probabilidad de que al menos se tenga un
+valor en la variable aleatoria. Es necesario apoyarse de la probabilidad
+acumulada.
+
+Por ejemplo: ¿Cuál es la probabilidad de que al menos hay 5 personas que
+viven en casa? Se calcula a partir de la probabilidad de
+$P(5)+P(6) = 0.20 + 0.10=0.30$ o también se pudo haber encontrado el
+complemento de la probabilidad acumulada de $P(4)$ es decir
+$1-P(4)=1-0.70=0.30$.
+
+En R se presenta una variable llamada variables que almacena los valores
+de las variables aleatorias discretas entre uno y seis.
+
+Algunas librerías necesarias para el caso. Se debe recordar que las
+librerías deberán estar previamente instaladas con *install.packages()*
+
+```{r message=FALSE, warning=FALSE}
+library(ggplot2)
+library(stringr)  # String
+library(stringi)  # String
+library(gtools)
+library(dplyr)
+library(knitr)
+
+```
+
+```{r}
+variables <- c(1,2,3,4,5,6)
+prob <- c(0.10, 0.14, 0.16, 0.30, 0.20, 0.10)
+prob.acumulada <- cumsum(prob)
+
+datos <- data.frame(variables, prob, prob.acumulada)
+
+kable(datos, caption = "Variables aleatorias discretas y su probabilidad. Personas ue vien en casa")
+
+
+```
+
+Respondiendo a las preguntas del ejemplo de personas que viven en casa.
+
+¿Cuál es la probabilidad de que viva una persona en casa?.
+
+```{r}
+datos$prob[1]
+
+```
+
+¿Cuál es la probabilidad de elegir a una persona al azar y que responda
+que viven 4 personas en casa?
+
+```{r}
+datos$prob[4]
+
+```
+
+¿Cuál es la probabilidad de que se le pregunte a una persona y mencione
+de que en casa viven de 1 a 3 personas?
+
+```{r}
+datos$prob[1] + datos$prob[2] + datos$prob[3]
+datos$prob.acumulada[3]
+
+```
+
+¿Cuál es la probabilidad de que al menos hay 5 personas que viven en
+casa?. Se puede utilizar la fórmula de complemento o sumar a partir de
+la variable aleatoria 5
+
+```{r}
+1 - datos$prob.acumulada[4]
+
+datos$prob[5] + datos$prob[6]
+
+```
+
+Ejemplo 2:
+
+Se hace un estudio de N personas en una institución educativa y se les
+pregunta a los alumnos en qué semestre estudian?, puede haber respuestas
+desde cero hasta doce, entonces la variable aleatoria semestre es
+discreta y las probabilidades asociadas a cada una de ellas.
+
+```{r}
+variables <- c(0,1,2,3,4,5,6,7,8,9,10,11,12)
+prob <- c(0.05,0.18, 0.16, 0.12, 0.10, 0.08, 0.08, 0.06, 0.04,0.02,0.01, 0.05, 0.05)
+prob.acumulada <- cumsum(prob)
+
+datos <- data.frame(variables, prob, prob.acumulada)
+
+kable(datos, caption = "Variables aleatorias discretas y su probabilidad. Semestre en que estudia un alumno")
+
+```
+
+¿ Cuál es la probabilidad de encontrar a un alumno de quinto semestre?.
+R 0.08
+
+El valor de las posiciones en R como son arreglos las columnas del
+conjunto de datos comienzan en 1, el valor de la variable aleatoria
+comienza en 0. Para efectos de encontrar los valores se agrega 1 a la
+posición. Se utiliza el valor de posición "**i**" para acceder al valor.
+
+```{r}
+i=5 # Variable aleatoria de 5 semestre
+datos$prob[i+1]
+```
+
+¿ Cuál es la probabilidad de encontrar a un alumno de doceavo semestre?.
+R 0.05
+
+```{r}
+i=12 # Variable aleatoria de 12 semestre
+datos$prob[i+1]
+```
+
+¿Cuál es la probabilidad de encontrar a un alumno que esté cursando de
+primero a sexto semestre. Se suman sus probabilidades. R.
+$0.18 + 0.16 + 0.12 + 0.10 + 0.08 + 0.08 = 0.72$ Se necesita acceder a
+los renglones o posiciones del 1 al 7 del conjunto de datos. Se agrega 1
+a cada valor inicial y final.
+
+```{r}
+iinicial <- 1
+ifinal <- 6
+
+sum(datos$prob[c((iinicial+1): (ifinal+1))])
+
+```
+
+¿Cuál es la probabilidad de encontrar a un alumno de al menos séptimo
+semestre. Se suman las probabilidad de 7, 8 9 10, 11 y 12 o el
+complemento de la probabilidad acumulada a partir de la variable
+aleatoria 6.
+
+```{r}
+i <- 7
+sum(datos$prob[(i+1):nrow(datos)])
+
+1 - sum(datos$prob.acumulada[i])
+
+```
+
+# Desarrollo
+
+Se presentan ejercicios relacionadas con variables aleatorias y su
+probabilidad, para cada ejercicio, se describe y define el contexto, se
+construye la tabla de probabilidad que contiene los valores de la
+variable aleatoria, la función de probabilidad y su función acumulada,
+la gráfica de barra de los valores de las variables aleatoria y la
+gráfica lineal de la función acumulada.
+
+## Billetes de rifa
+
+Se venden 5000 billetes para una rifa a 1 euro cada uno. Existe un único
+premio de cierta cantidad, calcular los valores de las variables
+aleatorias y sus probabilidades para 0 para no gana y 1 para si gana
+cuando un comprador adquiere tres billetes. [@coursehero].
+
+### Tabla de probabilidad
+
+```{r}
+discretas <- c(0,1)   # 0 Que no gane, 1 que gane
+n <- 5000
+casos <- c(4997,3)
+probabilidades <- casos / n
+
+acumulada <- cumsum(probabilidades)   # Acumulada
+
+tabla <- data.frame(x=discretas, 
+                    casos = casos,
+                    f.prob.x = probabilidades,
+                    F.acum.x = acumulada)
+tabla
+
+```
+
+### Gráfica de barras
+
+```{r}
+ggplot(data = tabla, aes(x = x, y=casos)) +
+  geom_bar(stat="identity")
+
+```
+
+### Gráfica lineal acumulada
+
+```{r}
+ggplot(data = tabla, aes(x = x, y=F.acum.x)) +
+    geom_point() + 
+  geom_line()
+
+```
+
+## Venta de automóviles
+
+Las ventas de automóviles de una empresa durante los últimos 300 días de
+operación, los datos de ventas muestran que hubo:
+
+-   54 días en los que no se vendió ningún automóvil,
+
+-   117 días en los que se vendió 1 automóvil,
+
+-   72 días en los que se vendieron 2 automóviles,
+
+-   42 días en los que se vendieron 3 automóviles,
+
+-   12 días en los que se vendieron 4 automóviles y
+
+-   3 días en los que se vendieron 5 automóviles.
+
+### Tabla de probabilidades
+
+```{r}
+discretas <- 0:5   # c(0,1,2,3,4,5)
+n <- 300
+
+casos <- c(54, 117, 72, 42, 12, 3)
+probabilidades <- casos /n
+
+acumulada <- cumsum(probabilidades)   # Acumulada
+
+tabla <- data.frame(x=discretas, 
+                    casos = casos,
+                    f.prob.x = probabilidades,
+                    F.acum.x = acumulada)
+tabla
+
+```
+
+¿Cuál es la probabilidad de que se venda exactamente un automóvil?
+$prob=\frac{117}{300} =$ `r 117/300`
+
+¿Cuál es la la probabilidad de que se venda de uno a dos automóviles?.
+$prob=\sum P(x_1, x_2) = 0.63$
+
+¿Cuál es la la probabilidad de que se venda al menos dos automóviles?.
+$prob = \sum P(x_2, x_3, x_4, x_5) = 1 - Prob.Acum(x_1) = 0.43$
+
+### Gráfica de barras
+
+```{r}
+ggplot(data = tabla, aes(x = x, y=f.prob.x)) +
+  #geom_bar(stat="identity")
+  geom_bar(stat="identity")
+
+```
+
+### Gráfica lineal acumulada
+
+```{r}
+ggplot(data = tabla, aes(x = x, y=F.acum.x)) +
+  geom_point() + 
+  geom_line()
+
+```
+
+## Niños de cuarto grado
+
+En Estados Unidos un porcentaje de los niños de cuarto grado no pueden
+leer un libro adecuado a su edad.
+
+La tabla muestra, de acuerdo con las edades de entre 6 y 14 años, el
+número de niños que tienen problemas de lectura. La mayoría de estos
+niños tienen problemas de lectura que debieron ser detectados y
+corregidos antes del tercer grado[@anderson2008].
+
+### Tabla de probabilidad
+
+```{r}
+discretas <- 6:14
+#n <- '?'
+
+casos <- c(37369, 87436, 160840,239719,286719,306533,310787,302604,289168)
+
+n <- sum(casos)
+probabilidades <- casos /n
+
+acumulada <- cumsum(probabilidades)   # Acumulada
+
+tabla <- data.frame(x=discretas, 
+                    casos = casos,
+                    f.prob.x = probabilidades,
+                    F.acum.x = acumulada)
+tabla
+
+```
+
+¿Cuál es la probabilidad de elegir alumnos que tienen problemas de
+exactamente 10 años?.$$prob=P(x_{10})=\frac{286719}{n} = 0.1418$$
+
+¿Cuál es la probabilidad de encontrar alumnos de 11 años o menos?.
+$$prob=\sum Prob(x_6, x_7, x_8, x_9, x_{10}, x_{11}) = Prob.Acum(x_{11}) = 0.5534$$
+
+## Satisfacción en el trabajo
+
+Se muestra la distribución de frecuencias porcentuales para las
+puntuaciones dadas a la satisfacción con el trabajo por una muestra de
+directivos en sistemas de información de nivel alto y de nivel medio.
+Las puntuaciones van de 1 (muy insatisfecho) a 5 (muy
+satisfecho).[@anderson2008].
+
+```{r}
+include_graphics("../Imagenes/satisfaccion en el trabajo ejecutivos.jpg")
+
+```
+
+### Para directivos de nivel alto
+
+#### Tabla de probabilidad
+
+Para este ejercicio se utiliza tabla1 y tabla2 como variables para
+identificar los valores de acuerdo al tipo de ejecutivo.
+
+¿Cuál es la probabilidad de que un ejecutivo de nivel alto tenga una
+puntuación de 4 o 5 en satisfacción con el trabajo?
+
+```{r}
+discretas <- 1:5
+#n <- '?'
+
+casos <- c(5,9,3,42,41)
+
+n <- sum(casos)
+probabilidades <- casos /n
+
+acumulada <- cumsum(probabilidades)   
+
+
+tabla1 <- data.frame(x=discretas, 
+                    casos = casos,
+                    f.prob.x = probabilidades,
+                    F.acum.x = acumulada)
+tabla1
+
+
+paste("La probabilidad de que un ejecutivo de nivel alto dé una puntuación de 4 o 5 a su satisfacción con el trabajo es:", round(sum(tabla1$f.prob.x[4], tabla1$f.prob.x[5]) * 100, 2), "%")
+
+```
+
+#### Gráfica de barra
+
+```{r}
+ggplot(data = tabla1, aes(x = x, y=f.prob.x, fill=x)) + 
+  geom_bar(stat="identity")
+
+```
+
+#### Gráfica lineal acumulada
+
+```{r}
+ggplot(data = tabla1, aes(x = x, y=F.acum.x)) +
+  geom_point(colour="blue") + 
+  geom_line(colour="red")
+
+```
+
+### Para directivos de nivel medio
+
+¿Cuál es la probabilidad de que un ejecutivo de nivel medio esté muy
+satisfecho?
+
+```{r}
+discretas <- 1:5
+#n <- '?'
+
+casos <- c(4, 10, 12, 46, 28)
+
+n <- sum(casos)
+probabilidades <- casos /n
+
+acumulada <- cumsum(probabilidades)   
+
+
+tabla2 <- data.frame(x=discretas, 
+                    casos = casos,
+                    f.prob.x = probabilidades,
+                    F.acum.x = acumulada)
+tabla2
+
+paste(" La probabilidad de que un ejecutivo de nivel medio esté muy satisfecho es:", round(tabla2$f.prob.x[5] * 100, 2), "%")
+```
+
+#### Gráfica de barras
+
+```{r}
+ggplot(data = tabla2, aes(x = x, y=f.prob.x, fill=x)) + 
+  geom_bar(stat="identity")
+```
+
+#### Gráfica lineal acumulada
+
+```{r}
+ggplot(data = tabla2, aes(x = x, y=F.acum.x)) +
+  geom_point(colour="blue") + 
+  geom_line(colour="red")
+```
+
+Observando las gráficas de barras y las tablas de probabilidad, los
+directivos de alto nivel están más satisfechos con el trabajo comparado
+con directivos de nivel medio.
+
+## Prueba de componentes electrónicos
+
+La prueba de un número de componentes electrónicos se prueban tres
+componentes electrónicos, el espacio muestral que ofrece una descripción
+detallada de cada posible resultado se escribe como **'N' No Defectuoso
+y 'D' Defectuoso**:
+
+```{r}
+S <- c("NNN", "NND", "NDN", "DNN", 
+        "NDD", "DND", "DDN", "DDD")
+S
+
+```
+
+-   Se define **N** como No defectuoso y **D** como defectuoso.
+
+-   Se identifican las variables discretas como:
+
+    -   0 defectos, no hay D en el espacio muestral
+    -   1 defecto existe, existe una D en el espacio muestral
+    -   2 defectos hay dos D en el espacio muestral y
+    -   3 defectos hay tres D en el espacio muestral
+
+Los variables aleatorias $x_0, x_1, x_2, x_3$ tiene valores de cero a
+tres defectos determinadas por el resultado del experimento. Se
+determina como valores que toma la variable aleatoria $x$, es decir, el
+número de artículos defectuosos cuando se prueban tres componentes
+electrónicos.
+
+¿Cuál es la probabilidad de que haya 1 defecto?
+
+```{r}
+discretas <- 0:3
+#n <- '?'
+
+casos <- c(1,3,3,1)
+
+n <- sum(casos)
+probabilidades <- casos /n
+
+acumulada <- cumsum(probabilidades)   # Acumulada
+
+tabla <- data.frame(x=discretas, 
+                    casos = casos,
+                    f.prob.x = probabilidades,
+                    F.acum.x = acumulada)
+tabla
+
+```
+
+Se utiliza la variable $x$ dado que el valor de la variable aleatoria
+$x$ empieza en $0$ y los vectores en R comienzan en, $1$.
+
+```{r}
+x <- 1  
+paste("La probabilidad de que haya 1 defecto es: ",round(tabla$f.prob.x[x+1] * 100, 2), "%")
+
+
+```
+
+¿Cuál es la probabilidad de que haya 2 defectos o mas?
+
+```{r}
+x <- 2 
+paste("La probabilidad de que haya 2 defectos o mas es: ",round(sum(tabla$f.prob.x[x+1], tabla$f.prob.x[x+2]) * 100, 2), "%")
+
+```
+
+### Gráfica de barras
+
+```{r}
+ggplot(data = tabla, aes(x = x, y=f.prob.x)) +
+  #geom_bar(stat="identity")
+  geom_bar(stat="identity")
+
+```
+
+### Gráfica de probabilidad acumulada
+
+```{r}
+ggplot(data = tabla, aes(x = x, y=F.acum.x)) +
+  geom_point() + 
+  geom_line() 
+
+```
+
+# Interpretación
+
+Responder descriptivamente a las siguientes preguntas:
+
+-   ¿Cuál es la variable aleatoria y su significado en cada contexto?
+-   ¿Qué valores puede tomar una variable aleatoria discreta?
+-   ¿Cuál es el espacio muestral en cada contexto?, todos los elementos.
+-   ¿Que significado tiene el gráfico de barra?
+-   ¿Qué significado tiene el gráfico lineal acumulado?
+-   ¿Qué les deja el caso?
+
+# Referencias bibliográficas
