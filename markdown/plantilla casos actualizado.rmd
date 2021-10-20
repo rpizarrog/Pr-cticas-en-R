@@ -1,13 +1,17 @@
 ---
 title: "Plantilla casos"
 author: "Su nombre completo"
-date: "8/9/2021 Cambiar Fecha"
+date: "20/10/2021 Cambiar Fecha"
 output: 
-  html_document:
+  html_document: 
+    toc: yes
+    toc_depth: 5
     code_folding: hide
-    toc: true
-    toc_float: true
-    toc_depth: 6
+    toc_float: yes
+    number_sections: yes
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 # Objetivo
