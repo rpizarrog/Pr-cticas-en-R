@@ -56,3 +56,54 @@ unif_area <- function(min = 0, max = 1, lb, ub, col = 1,
   points(0, min, pch = 21, col = col, bg = "white")
   points(max, min, pch = 21, col = col, bg = "white")
 }
+
+# funcion par distribuciones
+# 27 Oct 2021 Actualizado
+
+library(gtools)
+
+
+# Función que devuelve la probabilidad conforme y de acuerdo a la 
+# la fórmula de distribución binomial
+# Recibe tres parámetros: 
+# los valores de x, e valor de n y la probabilidad de éxito
+# Devuelve las probabilidades para cada valor de la variable aleatoria discreta
+f.prob.binom <- function (x,n,exito) {
+  fracaso <- 1 - exito
+  prob <- (factorial(n) / (factorial(x) * factorial(n-x)))  * ((exito^x) * (fracaso ^ (n-x)))
+  prob
+}
+
+
+# Función de distribución de Poisson conforme a la Fórmula
+f.prob.poisson <- function (media, x) {
+  e <- exp(1)
+  prob <- media^x * e^(-media) / factorial(x)
+  prob
+}
+
+# Función de disrtibución hipergeométrica
+# Recibe estos pa´rametros:
+# N Total de elementos de la población
+# n Elementos de la muestra o ensayos
+# r número de elementos considerados como éxtio
+# x Valores que puede tener la variabel aleatoria discreta
+f.prob.hiper <- function (x, N, n, r) {
+  numerador <- (factorial(r) / (factorial(x) * factorial(r-x))) * (factorial(N-r) / (factorial(n-x) * factorial((N-r)-(n-x)))) 
+  denominador <- (factorial(N) / (factorial(n) * factorial(N-n)))
+  
+  prob <- numerador / denominador
+  prob
+}
+
+# Función que devuelve el valor esperado de una distribución hipergeométrica
+f.va.hiper <- function (n, r, N) {
+  VE <- n * (r/N)
+  VE
+}
+
+# Función que devuelve la varianza de una distribución hipergeométrica
+f.varianza.hiper <- function(VE, n, r, N)  {
+  varianza <- VE * (1 - r/N) * ((N-n) / (N-1))
+  varianza
+}
