@@ -2,7 +2,14 @@
 title: "Caso 17. Distribución Poisson"
 author: "Rubén Pizarro Gurrola"
 date: "4/11/2021"
-output: html_document
+output: 
+  html_document: 
+    toc: yes
+    toc_depth: 5
+    code_folding: hide
+    toc_float: yes
+    number_sections: yes
+bibliography: references.bib
 editor_options: 
   markdown: 
     wrap: 72
@@ -40,12 +47,18 @@ Esta distribución, suele usarse para estimar el número de veces que
 sucede un hecho determinado (ocurrencias) en un intervalo de tiempo o de
 espacio. Por ejemplo,
 
--   La variable de interés va desde el número de automóviles que llegan
-    (llegadas) a un lavado de coches en una hora o
+-   La variable de interés va desde el número promedio de automóviles
+    que llegan (llegadas) a un lavado de coches en una hora o
 
--   El número de reparaciones necesarias en 10 kms. de una autopista o,
+-   El número medio de reparaciones necesarias en 10 kms. de una
+    autopista o,
 
--   El número de fugas en 100 kms.de tubería, entre otros
+-   El número promedio de fugas de agua en tubería en un lapso 3 meses.
+
+-   El número de focos promedio que fallan en una cantidad de lote de
+    1000 focos.
+
+-   El número medio de fugas en 100 kms.de tubería, entre otros
     [@anderson_estadistica_2008].
 
 ## Fórmula
@@ -100,7 +113,7 @@ library(ggplot2)
 
 # o
 
-source("https://raw.githubusercontent.com/rpizarrog/probabilidad-y-estad-stica/master/funciones/funciones.distribuciones.r")
+source("https://raw.githubusercontent.com/rpizarrog/Trabajos-en-R-AD2021/main/funciones/funciones.para.distribuciones.r")
 
 ```
 
@@ -158,9 +171,11 @@ paste("La probabilida de que sean exactamente 5 automóviles es de : ", prob2)
 #### Tabla de probabilidad y gráfica de la probabilidad de Poisson
 
 ```{r}
-tabla <- data.frame(x=0:20, f.prob.x = round(dpois(x = 0:20, lambda = media),4))
+options(scipen=999) # Notación normal 
 
-tabla <- cbind(tabla, f.acum.x = ppois(q=0:20, lambda = media))
+tabla <- data.frame(x=0:25, f.prob.x = round(dpois(x = 0:25, lambda = media),4))
+
+tabla <- cbind(tabla, f.acum.x = ppois(q=0:25, lambda = media))
 
 tabla
 
@@ -177,12 +192,23 @@ ggplot(data = tabla, aes(x,f.prob.x) ) +
 
 #### ¿Cual es la probabilidad de que X sea menor o igual a diez?
 
-$$P(x \leq10) = P(x=1) + P(x=2) + P(x=3) + ... + P(x=10)$$
+$$P(x \leq10) = P(x=0) + P(x=1) + P(x=2) + P(x=3) + ... + P(x=10)$$
 
 ```{r}
-tabla$f.acum[10]
+i <- 10
+tabla$f.acum[i + 1]
 
-paste("La probabilidad de que el valor de x sea menor o igua a 10 es: ", tabla$f.acum[10])
+paste("La probabilidad de que el valor de x sea menor o igua a 10 es: ", tabla$f.acum[i + 1])
+```
+
+#### Usando ppois()
+
+*ppois()* determina la probabilidad acumulada de una distribución
+Poisson.
+
+```{r}
+prob <- round(ppois(q = 10, lambda = media), 4)
+paste("La probabilidad de que el valor de x sea menor o igua a 10 es: ", prob)
 ```
 
 #### Media diferente
@@ -211,33 +237,34 @@ Entonces ....
 
 ```{r}
 media <- 2
+x <- 4
 ```
 
 ```{r}
-prob <- round(dpois(x = 1, lambda = media),4)
+prob <- round(dpois(x = 4, lambda = media),4)
 
-paste("La probabilidad cuando x = 1 y media igual a 2 es del:", prob * 100, "%")
+paste("La probabilidad cuando x = 4 y media igual a 2 es del:", prob * 100, "%")
 ```
 
 #### El valor de la esperanza media
 
-Regresando a la media $\mu = 10 \text { o }\lambda = 2$ , entonces la
-esperanza es igual a: $2$
+Regresando a la media $\mu = 10 \text{ o }\lambda = 10$ , entonces la
+esperanza media es igual a: $10$
 
-#### La varianza 
+#### La varianza
 
-La varianza es igual a $2$
+La varianza es igual a $10$
 
-#### La desviación estándar 
+#### La desviación estándar
 
-La raiz cuadrada de $2$
+La raiz cuadrada de $\sqrt{10}$
 
 ```{r}
-sqrt(2)
+sqrt(media)
 
 ```
 
-### Interpretación
+#### Interpretación
 
 Pendiente
 
@@ -249,10 +276,9 @@ cualquier día dado es $0.005$ y los accidentes son independientes entre
 sí [@walpole_probabilidad_2012].
 
 ¿Cuál es la probabilidad de que en cualquier periodo dado de 400 días
-habrá un accidente en un día?
-\
-Se multiplica la cantidad la de accidentes por su probabilidad para
-encontrar la media.
+habrá un accidente en un día?\
+Se multiplica la cantidad la de dias por su probabilidad para encontrar
+la media. Esta media será el parámetro para la distribución *Poisson*.
 
 ```{r}
 n <- 400
@@ -264,7 +290,7 @@ media
 
 La variable aleatoria son los días desde $x=0$...hasta $x=n$
 
-#### La tabla de distribución de probabilidad de Poisson  
+#### La tabla de distribución de probabilidad de Poisson
 
 ```{r}
 tabla <- data.frame(x=0:10, f.prob.x = round(dpois(x = 0:10, lambda = media),4))
@@ -276,7 +302,7 @@ tabla
 
 ```
 
-Visualización de Poisson
+#### Visualización de Poisson
 
 ```{r}
 
@@ -299,6 +325,11 @@ prob <- tabla$f.prob.x[i+1]
 paste("La probabiidad del valor de x=1 es: ", prob)
 ```
 
+```{r}
+paste("La probabiidad del valor de x=1 es: ", round(dpois(x = 1, lambda = media), 4))
+
+```
+
 ### ¿Cuál es la probabilidad de que haya a lo más tres días con un accidente?
 
 -   El indice en la taba comienza en cero
@@ -310,7 +341,12 @@ paste("La probabiidad del valor de x<=3 es: ", prob)
 
 ```
 
-### Interpretación
+```{r}
+paste("La probabilidad acumlada del valor de x<=3 es: ", round(ppois(q = 3, lambda = media, lower.tail = TRUE), 4))
+
+```
+
+#### Interpretación
 
 Pendiente
 
@@ -358,6 +394,11 @@ prob <- tabla$f.acum.x[i+1]
 paste("La probabiidad del valor de x<=3 es: ", round(prob * 100,4), "%")
 ```
 
+```{r}
+
+paste("La probabilidad del valor de x<=3 es: ", round(ppois(q = 3, lambda = media),4) * 100, "%")
+```
+
 #### ¿Cuál es la probabilidad de que más de 1 automóvil por año experimente una catástrofe?
 
 $$ 1 - P(X \leq 1) $$ $$ 1 - (P(X=0) + P(x=1))$$
@@ -366,13 +407,20 @@ $$ 1 - P(X \leq 1) $$ $$ 1 - (P(X=0) + P(x=1))$$
 i <- 1
 prob <- 1 - tabla$f.acum.x[i+1]
 
-paste("La probabiidad del valor de x>1 es: ", round(prob * 100,4), "%")
+paste("La probabilidad del valor de x>1 es: ", round(prob * 100,4), "%")
 ```
 
-### Interpretación
+```{r}
+prob <- ppois(q = 1, lambda = media, lower.tail = FALSE)
+paste("La probabiidad del valor de x>1 es: ", round(prob * 100,4), "%")
+
+
+```
+
+#### Interpretación
 
 Pendiente
 
-# Interpretación 
+# Interpretación
 
 # Referencias Bibliográficas
