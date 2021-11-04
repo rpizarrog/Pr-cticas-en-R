@@ -226,7 +226,19 @@ f.prob.hiper(x=x, N = N, n = m, r = k)
 
 Ejemplo 3:
 
-![](images/hipergeometrica%20componetness%20desarrollo%20y%20solucion.jpg "Microcomponetes Distribución hipergeométrica")
+Lotes con 40 componentes cada uno que contengan 3 o más defectuosos se
+consideran inaceptables. El procedimiento para obtener muestras del lote
+consiste en seleccionar 5 componentes al azar y rechazar el lote si se
+encuentra un componente defectuoso.
+
+¿Cuál es la probabilidad de que, en la muestra, se encuentre exactamente
+un componente defectuoso, si en todo el lote hay 3 defectuosos?
+
+Si se utiliza la distribución hipergeométrica con n = 5, N = 40, k = 3 y
+x = 1, se encuentra que la probabilidad de obtener un componente
+defectuoso es:
+
+![](images/hipergeometrica%20componetness%20desarrollo%20y%20solucion-02.jpg)
 
 Solución con *dhyper()*
 
@@ -274,6 +286,8 @@ source("https://raw.githubusercontent.com/rpizarrog/Trabajos-en-R-AD2021/main/fu
 ```
 
 ## Fábrica de fusibles
+
+![](images/imagen%20fusibles.jpg)
 
 Una empresa fabrica fusibles que empaca en cajas de 12 unidades cada
 una.
@@ -733,5 +747,7 @@ prob <- phyper(q = 0, m = m, n = n, k = k, lower.tail = FALSE)
 paste ("La probabilidad de que apruebe es de: ", prob, " o sea ", round(prob*100, 4), "%")
 
 ```
+
+# Interpretación 
 
 # Referencias Bibliográficas
