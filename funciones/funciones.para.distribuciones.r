@@ -137,3 +137,9 @@ f.normal.acum <- function(desv, x, media) {
   
   # Es lo mismo que dnorm(x = x, mean = media, sd = desv)
 }
+
+
+f.devolver.z <- function(x, media, desv) {
+  z <- (x - media) / desv
+  z
+}
