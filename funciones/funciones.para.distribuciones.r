@@ -128,18 +128,9 @@ f.normal.dens <- function(desv, x, media) {
   # Es lo mismo que dnorm(x = x, mean = media, sd = desv)
 }
 
-
-f.normal.acum <- function(desv, x, media) {
-  numerador <- exp(1)^(-(x - media)^2 / (2 * desv^2))
-  denominador <- desv * sqrt(2 * pi)
-  prob <- sum(numerador / denominador)
-  prob
-  
-  # Es lo mismo que dnorm(x = x, mean = media, sd = desv)
-}
-
-
+# Función para devolver el valor de z
 f.devolver.z <- function(x, media, desv) {
   z <- (x - media) / desv
   z
 }
+
