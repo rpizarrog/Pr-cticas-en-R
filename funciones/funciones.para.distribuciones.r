@@ -107,3 +107,33 @@ f.varianza.hiper <- function(VE, n, r, N)  {
   varianza <- VE * (1 - r/N) * ((N-n) / (N-1))
   varianza
 }
+
+# Devuelve la densidad de la distribución T Student
+f.t.student <- function(media.muestra, media.pob, desv.muestra, n) {
+  dens <- (media.muestra - media.pob) / (desv.muestra / sqrt(n))
+  dens
+}
+
+f.t.student.std <- function(Z, V) {
+  dens <- Z / (V / sqrt(V))
+  dens
+}
+
+f.normal.dens <- function(desv, x, media) {
+  numerador <- exp(1)^(-(x - media)^2 / (2 * desv^2))
+  denominador <- desv * sqrt(2 * pi)
+  prob <- numerador / denominador
+  prob
+  
+  # Es lo mismo que dnorm(x = x, mean = media, sd = desv)
+}
+
+
+f.normal.acum <- function(desv, x, media) {
+  numerador <- exp(1)^(-(x - media)^2 / (2 * desv^2))
+  denominador <- desv * sqrt(2 * pi)
+  prob <- sum(numerador / denominador)
+  prob
+  
+  # Es lo mismo que dnorm(x = x, mean = media, sd = desv)
+}
