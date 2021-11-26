@@ -134,3 +134,17 @@ f.devolver.z <- function(x, media, desv) {
   z
 }
 
+
+# Función para devolver Z para Intervalo de Confianza
+f.z.int.conf <- function (confianza) {
+  alfa = 1 - confianza
+  #alfa
+  
+  v.critico <- 1 - (alfa / 2)
+  #v.critico
+  
+  z <- qnorm(v.critico)
+  z
+  
+}
+
