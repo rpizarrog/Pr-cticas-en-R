@@ -108,10 +108,10 @@ f.varianza.hiper <- function(VE, n, r, N)  {
   varianza
 }
 
-# Devuelve la densidad de la distribución T Student
-f.t.student <- function(media.muestra, media.pob, desv.muestra, n) {
-  dens <- (media.muestra - media.pob) / (desv.muestra / sqrt(n))
-  dens
+# Devuelve el valor de t para una distribución T Student
+f.devolver.t <- function(media.muestra, media.pob, desv.muestra, n) {
+  t <- (media.muestra - media.pob) / (desv.muestra / sqrt(n))
+  t
 }
 
 f.t.student.std <- function(Z, V) {
@@ -154,6 +154,54 @@ f.intervalo.confianza <- function (media, desv, confianza, n) {
     
   round(c(li, ls),4)
 }
+
+# Función para graficar intervalo de confianza
+# No funciona
+f.graf.intervalo.confianza <- function (datos) {
+    datos <- data.frame(valores = datos)
+  g <- ggplot(data = datos) +
+    geom_point(aes(x = f.devolver.z(x = valores, media = mean(valores), desv = sd(valores)), 
+   y = pnorm(f.devolver.z(x = valores, media = mean(valores), desv = sd(valores)))))
+  g
+}
+
+
+
+# Devuelve la probabilidad de una variable discreta
+# Recibe una tabla de distribución
+# recibe el valor de la variable discreta
+# Recibe el tipo: 
+#   = 0; 
+#   < 1; 
+#   > 2; 
+#   <= 3; 
+#   >= 4 
+f.prob.discr <- function(datos, discreta, tipo) {
+  if (tipo == 0) { # == 
+    salida <- filter(datos, x == discreta) %>%
+      select (f.prob)    
+  }
+  if (tipo == 1) { # <
+    salida <- filter(datos, x == discreta - 1) %>%
+      select (f.acum) 
+  }
+  if (tipo == 2) { # >
+    salida <- filter(datos, x == discreta) %>%
+      select (f.acum)
+    salida <- 1 - salida
+  }
+  if (tipo == 3) { # <=
+    salida <- filter(datos, x == discreta) %>%
+      select (f.acum)
+  }
+  if (tipo == 4) { # >=
+    salida <- filter(datos, x == discreta - 1) %>%
+      select (f.acum)
+    salida <- 1 - salida
+  }
+  salida
+}
+
 
 
 
