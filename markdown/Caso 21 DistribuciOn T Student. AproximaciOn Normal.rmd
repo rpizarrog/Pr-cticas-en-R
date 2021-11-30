@@ -1,5 +1,5 @@
 ---
-title: "Caso 21 Distribución T Student. Aproximación Normal"
+title: "Caso 21 Distribución T Student. Intervalo de confinza"
 author: "Rubén Pizarro Gurrola"
 date: "29/11/2021"
 output: 
@@ -29,9 +29,9 @@ En el sustento teórico, se da a conocer un panorama de la importancia de
 la distribución *T Student* comparando la campana de gauss de una
 distribución normal estándar y distribuciones t; se identifica la
 fórmula de densidad *t* y se mencionan las funciones de paquete base de
-R: *dt(), pt(), qt y rt()* y la función xpt() de la librería mosaic para
-graficar *T Student* y para el tratamiento de este tipo de
-distribuciones. [@tdistribution].
+R: *dt(), pt(), qt y rt()* y la función **xpt()** y **visualize.t** de
+la librería **mosaic** y **visualize()**para graficar *T Student* y para
+el tratamiento de este tipo de distribuciones. [@tdistribution].
 
 De igual forma el caso ofrece visualización de *T Student* mediante
 gráficos programados usando funciones de la librería *ggplot2()*.
@@ -157,7 +157,11 @@ Calcular el valor de **t**.
 Se aplica una prueba de autoestima a **25 personas** quienes obtienen
 una calificación promedio de **62.1** con una desviación estándar de
 **5.83**. Se sabe que el valor correcto de la prueba debe ser mayor a
-**60**. Calcular el valor de *t*. $n=25; \bar=62.1; s=5.83; \mu=60$
+**60**. Calcular el valor de *t*.
+
+$$
+n=25; \bar{x}=62.1; s=5.83; \mu=60
+$$
 
 ```{r}
 n <- 25; media.m <- 62.1; desv.m <- 5.83; media.p <- 60
@@ -238,7 +242,7 @@ con los grados de libertad en las gráficas $t$.
 
 ```{r}
 # Grafica Normal Z con media igual a 0 y desv igual a 1
-n <- 28
+n <- 25
 
 x <- seq(from = -3, to = 3, length.out = n)
 
@@ -258,12 +262,12 @@ g1 <- ggplot(data = tabla, aes(x = x, y = dens.z)) +
 
 
 # Distribución T Aproximada a Distribución Z Normal Stándard con 27 grados de libertad
-denst.27  <- dt(x = x, df = n - 1)
+denst.24  <- dt(x = x, df = n - 1)
 
 # Se vuelve a generar la tabla
-tabla <- data.frame(x = x, y = denst.27)
+tabla <- data.frame(x = x, y = denst.24)
 
-g2 <- ggplot(data = tabla, aes(x = x, y = denst.27)) +
+g2 <- ggplot(data = tabla, aes(x = x, y = denst.24)) +
   geom_point(colour = "red") +
   geom_line(colour = 'green') +
   ggtitle("T Student", subtitle = paste(n-1, " grados de libertad")) +
@@ -291,11 +295,11 @@ valores de $z's; t's$ y de las densidades juntas
 
 ```{r}
 # Gráficas juntas con una misma tabla
-tabla <- data.frame(x, dens.z, denst.27, denst.5)
+tabla <- data.frame(x, dens.z, denst.24, denst.5)
 
 g4 <- ggplot(data = tabla) 
 g4 <- g4 + geom_line(aes(x= x, y = dens.z), colour = "blue") 
-g4 <- g4 + geom_line(aes(x= x, y = denst.27), colour = "green") 
+g4 <- g4 + geom_line(aes(x= x, y = denst.24), colour = "green") 
 g4 <- g4 + geom_line(aes(x= x, y = denst.5), colour = "yellow") 
 
 g4 <- g4 + ggtitle("Normal Stándar(Z) y T Student", subtitle = paste("media = 0, sd = 1; ", (n-1)," y 5", " grados de libertad") )
