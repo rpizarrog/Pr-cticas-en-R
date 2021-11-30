@@ -1,0 +1,275 @@
+---
+title: "Caso 20. Intervalo de confianza con Z"
+author: "Rubén Pizarro Gurrola"
+date: "24/11/2021"
+output: 
+  html_document: 
+    toc: yes
+    toc_depth: 5
+    code_folding: hide
+    toc_float: yes
+    number_sections: yes
+bibliography: references.bib
+---
+
+# Objetivo
+
+Identificar e interpretar intervalos de confianza con distribuciones normales Z.
+
+# Descripción
+
+Se presentan diversos ejercicios con los que se requiere inicializar variables para determinar valores de Z con los cuales se estima intervalos de confianza.
+
+Se interpretar intervalo de confianza
+
+# Fundamento teórico
+
+## Error muestral
+
+El concepto de error muestral se define como la diferencia que existe de el valor de la media de varias medias en relación con la media poblacional.
+
+Ejemplo se crea una población de 200 valores y bajo la distribución normal, se identifica la media poblacional con $\mu = 50$ y $\sigma = 5$
+
+```{r}
+set.seed(2021)
+n = 200
+poblacion <- rnorm(n = n, mean = 50, sd = 5)
+poblacion
+```
+
+### Media de la población
+
+```{r}
+media.p <- mean(poblacion) 
+media.p
+```
+
+### Determinando varias muestras
+
+```{r}
+muestra1 <- sample(x = poblacion, size = 30, replace = FALSE)
+muestra2 <- sample(x = poblacion, size = 30, replace = FALSE)
+muestra3 <- sample(x = poblacion, size = 30, replace = FALSE)
+muestra4 <- sample(x = poblacion, size = 30, replace = FALSE)
+muestra5 <- sample(x = poblacion, size = 30, replace = FALSE)
+```
+
+### Visualizar las muestras
+
+Muestra1
+
+```{r}
+muestra1
+```
+
+Muestra2
+
+```{r}
+muestra2
+```
+
+Muestra3
+
+```{r}
+muestra3
+```
+
+Muestra4
+
+```{r}
+muestra4
+```
+
+Muestra5
+
+```{r}
+muestra5
+```
+
+### Medias de las muestras
+
+```{r}
+media1 <- mean(muestra1)
+media2 <- mean(muestra2)
+media3 <- mean(muestra3)
+media4 <- mean(muestra4)
+media5 <- mean(muestra5)
+
+media1
+media2
+media3
+media4
+media5
+
+```
+
+### Media de medias muestrales
+
+```{r}
+media.de.medias <- mean(c(media1, media2, media3, media4, media5))
+media.de.medias
+
+
+```
+
+### Calculando el Error Estándar
+
+La diferencia que existe entre la media de todas las medias en relación a la media poblacional es o lo que se conoce como Error Muestral.
+
+$$
+Err.Std = \sigma_\bar{x} = \frac{\sigma}{\sqrt{n}} \\ 
+\sigma \text{ es la desviación estándar de la población} \\ 
+n \text { es la cantidad de elementos} 
+$$
+
+```{r}
+Err.Std = sd(poblacion) / sqrt(n)
+Err.Std
+```
+
+## Intervalo de confianza
+
+![](images/intervalo%20de%20confianza.png){width="400"}
+
+El concepto de intervalo de confianza es el conjunto de valores que se forma a partir de una muestra de forma que exista la probabilidad de que el parámetro poblacional ocurra dentro de dicho conjunto con una probabilidad específica. La probabilidad específica se llama nivel de confianza. [@lind2015].
+
+El intervalo de confianza es una técnica de estimación utilizada en inferencia estadística que permite acotar un par o varios pares de valores, dentro de los cuales se encontrará la estimación puntual buscada (con una determinada probabilidad).
+
+Permite calcular dos valores alrededor de una media muestral (uno superior y otro inferior). Estos valores van a acotar un rango dentro del cual, con una determinada probabilidad, se va a localizar el parámetro poblacional. [@economipedia_intervalo_nodate].
+
+## Fórmula de intervalo de confianza
+
+$$
+IC = \bar{x} \pm z \cdot \frac{\sigma }{\sqrt{n}}
+$$
+
+-   Se necesita el valor de z!, ¿de dónde? y ¿cómo se obtiene?
+
+    ![](images/INTERVALOS%20DE%20CONFIANZA%2095%20Y%2099.jpg){width="400"}
+
+-   Se requiere el estadístico la media de una muestra.
+
+-   Se necesita la desviación estándar de la población Se estiman los valores mínimos y máximos dentro de un intervalo al 90%, tal vez al 95% tal vez al 99%... O cualquier otro valor de confianza.
+
+Por ejemplo :
+
+# Desarrollo
+
+## Cargar librerías
+
+```{r message=FALSE, warning=FALSE}
+library(cowplot) # Gráficos
+library(ggplot2) # Gráfico
+library(mosaic)
+library(dplyr)  # Para filter,select,arrange,mutate %>%..
+```
+
+## Cargar funciones
+
+```{r message=FALSE, warning=FALSE}
+source("https://raw.githubusercontent.com/rpizarrog/Trabajos-en-R-AD2021/main/funciones/funciones.para.distribuciones.r")
+
+```
+
+### Tabla de niveles de confianza de 0.90
+
+### a 0.99
+
+```{r}
+confianza = seq(0.90, 0.99, 0.01)
+confianza
+
+alfa = 1 - confianza
+alfa
+
+v.critico <- 1 - (alfa / 2)
+v.critico
+
+z <- qnorm(v.critico)
+z
+
+tabla <- data.frame(confianza, alfa, v.critico, z)
+tabla
+```
+
+## Ejemplos
+
+Se determina intervalos de confianza para cuando se tiene la media desconocida de una población pero se conoce su desviación estándar $\sigma$, se conoce la media de la muestra $\bar{x}$ y el valor de $n$ (cantidad de elementos de la muestra) además de el valor de confianza solicitado.
+
+### Ejemplo 1. Alumnos de una facultad
+
+Se ha obtenido una muestra de $n=25$ alumnos de una Facultad para estimar la calificación media de los expedientes de los alumnos en la Facultad. Se sabe por otros cursos que la desviación típica de las puntuaciones en dicha Facultad es de $\sigma=2.01$ puntos. La media de la muestra fue de $\bar{x} = 4.9$.
+
+-   Se requiere determinar el intervalo de confianza al 90 %. y
+
+-   Se necesita determinar el intervalo de confianza al 99 %.
+
+Entonces y conforme a la fórmula del intervalo de confianza:
+
+$$
+IC = \bar{x} \pm z \cdot \frac{\sigma }{\sqrt{n}}
+$$
+
+#### Solución intervalo de confianza al 90%
+
+```{r}
+intervalo <- f.intervalo.confianza(media = 4.9, desv = 2.01, n = 25, confianza = 0.90)
+intervalo
+
+```
+
+La media de 4.9 debe estar entre `r intervalo` al 90% de confianza y se interpreta que la media de la población debe tiene una probabilidad $P(4.2388 \le \mu \le 5.5612)$ de estar en ese rang con un nivel de confianza del 90%
+
+#### Solución intervalo de confianza al 99%
+
+```{r}
+intervalo <- f.intervalo.confianza(media = 4.9, desv = 2.01, n = 25, confianza = 0.99)
+intervalo
+```
+
+La media de 4.9 debe estar entre `r intervalo` al 99% de confianza y se interpreta que la media de la población debe tiene una probabilidad $P(3.8645 \le \mu \le 5.9355)$ de estar en ese rango con un nivel de confianza del 99%
+
+#### Visualizar al 90%
+
+Pendiente
+
+#### Visualizar al 99%
+
+### Ejemplo 2. A partir de un vector
+
+Se tiene el siguiente vector
+
+```{r}
+datos = c(3.09,3.06,2.79,2.44,2.54,3.52,3.07,2.67,2.99,2.82,2.94,3.57,2.38,3.24,
+3.16,3.45,3.24,2.97,3.39,2.97,2.68,2.91,2.84,3.15,3.15)
+datos
+```
+
+Del que se sabe que es una muestra de una población cuya desviación estándar $σ = 0.5$, se pide calcular un intervalo de confianza al $95\%$ para la media $µ$ de esa población.
+
+#### Variables iniciales
+
+Se sabe la desviación de la población $sigma = 0.5$ y se solicita nivel de confianza al $95\%$
+
+```{r}
+desv.pob <- 0.5 # Desviación de la población
+media.muestra <- mean(datos)
+n <- length(datos)
+media.muestra; desv.pob; n
+
+```
+
+#### Solución
+
+```{r}
+intervalo <- f.intervalo.confianza(media = media.muestra, desv = desv.pob, n = n, confianza = 0.95)
+intervalo
+```
+
+entonces, el valor del parámetro de la media poblacional debe estar en el intervalo `r intervalo` que significa una probabilidad de que la media esté en $P(2.8052 \mu 3.1972) $ con el nivel de confianza al $95 \%$
+
+# Interpretación
+
+El intervalo que se se genera como intervalo de confianza significa que la media debe estar entre ese rango del límite inferior y superior para aceptar que está precisamente en ese nivel de confianza.
+
+# Bibliografía
