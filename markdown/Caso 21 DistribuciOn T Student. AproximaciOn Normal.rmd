@@ -1,5 +1,5 @@
 ---
-title: "Caso 21 Distribución T Student. Intervalo de confinza"
+title: "Caso 21 Distribución T Student. Intervalo de confianza"
 author: "Rubén Pizarro Gurrola"
 date: "29/11/2021"
 output: 
@@ -182,9 +182,12 @@ xpt
 ```
 
 El valor de xpt= 0.957861 es el área bajo la curva a un valor de t de
-1.8010.
+1.8010 o sea 95.78%
 
 ## Usando pt() para área bajo la curva
+
+Representa el área bajo la curva desde su parte izquierda hasta el punto
+1.8010.
 
 ```{r}
 pt(q = 1.8010 , df = 24)
@@ -194,10 +197,14 @@ pt(q = 1.8010 , df = 24)
 ## Obtener el valor de t.critico con 95% de confianza
 
 Se obtiene mediante función **qt()** de R el valor del punto crítico al
-95% de confianza
+95% de confianza. Puede ser para cualquier nivel de confianza 0.90,
+0.95, 0.99 o cuaquier otro.
+
+Al igual que en distribución normal de z se obtiene $\alpha = 1 - 0.95$
+y el valor critico sería $\alpha/2$.
 
 ```{r}
-t.critico <- qt(p = 0.95, df = n-1)
+t.critico <- abs(qt(p = (1 - 0.95) / 2, df = n-1))
 t.critico
 ```
 
@@ -318,13 +325,31 @@ $$
 IC = \bar{x} \pm t \cdot \frac{S}{\sqrt{n}}
 $$
 
-Determinar el intervalo de confianza con el valor de t inicial
+Determinar el intervalo de confianza con el valor **real** de t. El
+valor al 95% de los datos al rededor de la media, el resto 5% se reparte
+a ambos lados de la curva.
 
 ```{r}
-paste("t=",t)
+paste("n=", n)
+confianza <- 0.95
+t.a <- qt(p = (1 - confianza) / 2, df = n-1) # dos colas
+t.a
+
+t.b <- qt(p = (1 - confianza) / 2, df = n-1, lower.tail = FALSE)
+t.b
+
+# Tomar cualquiera de las dos t t.a o t.b en su valor absoluto
+t <- abs(t.b)
+
+
+```
+
+```{r}
 paste("Media muestra = ", media.m)
 paste("Desv. muestra", desv.m)
-paste("n=", n)
+
+print("Intervalo de confianza al 95%")
+paste("t.critico",t.critico)
 li <- media.m - t * (desv.m /sqrt(n) )
 ls <- media.m + t * (desv.m /sqrt(n) )
 
@@ -334,10 +359,145 @@ intervalo
 
 ```
 
+El intervalo de confianza `r intervalo` sirve para evaluar si la media
+de la muestra está en dicho intervalo de tal forma que se acepta o se
+rechaza en relación a la región o área de aceptación o si está en el
+intervalo de confianza.
+
 # Desarrollo
 
-Se presentan varios ejercicios relacionados con al distribución *T
-Student.*
+Se presentan varios ejercicios relacionados con al distribución \*T
+Student.
+
+## Mall y clientes
+
+Un Gerente de mall desea estimar la cantidad media que gastan los
+clientes que visitan el centro comercial. Una muestra de 20 clientes
+revela las siguientes cantidades:
+$48.16, 42.22, 46.82, 51.45, 23.78, 41.86, 54.86, 37.92, 52.64, 48.59, 50.82, 46.94, 61.83, 61.69, 49.17, 61.46, 51.35, 52.68, 58.84, 43.88$
+
+¿Cuál es la mejor estimación de la media poblacional ?. Determine un
+intervalo de confianza de 95%.
+
+### Los datos
+
+```{r}
+cantidades <- c(48.16, 42.22, 46.82, 51.45, 23.78, 41.86, 54.86, 37.92, 52.64, 48.59, 50.82, 46.94, 61.83, 61.69, 49.17, 61.46, 51.35, 52.68, 58.84, 43.88)
+media.m <- round(mean(cantidades),4)
+desv.m <- round(sd(cantidades),)
+n <- length(cantidades)
+
+confianza <- 0.95
+
+```
+
+### Construir una tabla de datos
+
+```{r}
+tabla <- data.frame(variables = c("n", "Grados libertad", "Media muestra", "Desv.Std muestra", "Media Pob.", "Confianza"), datos = c(n, (n-1), media.m, desv.m, NA, confianza)) 
+tabla
+```
+
+### Valor de t real
+
+```{r}
+t <- qt(p = (1 - confianza) / 2, df = n-1) # dos colas
+t <- abs(t)
+t
+```
+
+### Intervalo de confianza
+
+```{r}
+li <- media.m - t * (desv.m /sqrt(n) )
+ls <- media.m + t * (desv.m /sqrt(n) )
+
+print("intervalo")
+intervalo <- c(li, ls)
+intervalo
+```
+
+### Evaluar el intervalo
+
+La mejor estimación de una media poblacional es que tenga un valor entre
+`r intervalo[1]` y `r intervalo[2]` con un 95% de confianza.
+
+### Visualizar gráfica Gauss
+
+```{r}
+visualize.t(stat = c(-t, t), df = n-1, section = "tails") +
+  text(0, 0.2, expression("95%"), col = "red")
+```
+
+## Fabricante de llantas
+
+Un fabricante de llantas desea investigar la durabilidad de sus
+productos. Una muestra de $10$ llantas para recorrer 50000 millas reveló
+una media muestral de $0.32$ pulgadas de cuerda restante con una
+desviación estándar de $0.09$ pulgadas.
+
+Construya un intervalo de confianza de $95%$ para la media poblacional.
+
+Sería razonable que el fabricante concluyera que después de 50000 millas
+la cantidad media poblacional de cuerda restante es de $0.30$ pulgadas?
+
+$$
+n=10; \bar{x} = 0.32; S = 0.09; confianza = 95\%; \mu = 0.30
+$$
+
+### Los datos
+
+```{r}
+media.m <- 0.32
+desv.m <- 0.09
+n <- 10
+media.p = 0.30
+confianza = 0.95
+
+```
+
+### Construir una tabla de datos
+
+```{r}
+tabla <- data.frame(variables = c("n", "Grados libertad", "Media muestra", "Desv.Std muestra", "Media Pob.", "Confianza"), datos = c(n, (n-1), media.m, desv.m, media.p, confianza)) 
+tabla
+```
+
+### Valor de t real
+
+```{r}
+t <- qt(p = (1 - confianza) / 2, df = n-1) # dos colas
+t <- abs(t)
+t
+```
+
+### Intervalo de confianza
+
+```{r}
+li <- media.m - t * (desv.m /sqrt(n) )
+ls <- media.m + t * (desv.m /sqrt(n) )
+
+print("intervalo")
+intervalo <- c(li, ls)
+intervalo
+```
+
+### Evaluar el intervalo
+
+El intervalo de confianza con valores entre `r intervalo[1]` y
+`r intervalo[2]` con un 95% de confianza se interpreta que el fabricante
+a un 95% de confianza puede estar seguro de que la profundidad media de
+las cuerdas oscila entre `r intervalo[1]` y `r intervalo[2]`. Como el
+valor de la media es `r media.p` es posible a un 95% que esté dentro de
+la región de confianza.
+
+### Visualizar gráfica Gauss
+
+```{r}
+visualize.t(stat = c(-t, t), df = n-1, section = "tails") +
+  text(0, 0.2, expression("95%"), col = "red") 
+
+```
 
 # Interpretación
 
