@@ -115,7 +115,7 @@ En donde:
 -   $b$ Es el valor de la pendiente o inclinación.
 -   $x$ el valor de la variable independiente
 
-##### Fórmulas par obtener coeficientes a y b en el método de mínimos cuadrados
+### Fórmulas par obtener coeficientes a y b en el método de mínimos cuadrados
 
 $$b = r \cdot(\frac{
 s_{y}}{s_x}) = \frac{\sum(x_i - \bar{x})\cdot(y_i - \bar{y})}{\sum(x_i-\bar{x})^2}$$
@@ -222,8 +222,8 @@ paste("El coeficiente de determinación o Multiple R-squared: es igual al cuadra
 ```
 
 -   El coeficiente de determinación $r^{2}$ con valor de
-    `r round(r^2,4)` significa que el valor de solido representa el
-    `r round(r^2* 100, 2)` % del oxígeno.
+    `r round(r^2,4)` significa que el valor de llamadas representa el
+    `r round(r^2* 100, 2)` % de las ventas.
 
 ### Determinar los valores de a y b
 
@@ -231,6 +231,14 @@ paste("El coeficiente de determinación o Multiple R-squared: es igual al cuadra
 a <- modelo$coefficients[1]
 b <- modelo$coefficients[2]
 a ; b
+```
+
+### Medias de las variables
+
+```{r}
+mean(datos$llamadas)
+
+mean(datos$ventas)
 ```
 
 ### Gráfica de tendencia
@@ -334,8 +342,8 @@ paste("El coeficiente de determinación o Multiple R-squared: es igual al cuadra
 ```
 
 -   El coeficiente de determinación $r^{2}$ con valor de
-    `r round(r^2,4)` significa que el valor de solido representa el
-    `r round(r^2* 100, 2)` % del oxígeno.
+    `r round(r^2,4)` significa que el valor de comerciales representa el
+    `r round(r^2* 100, 2)` % de las ventas.
 
 ### Determinar los valores de a y b
 
@@ -343,6 +351,14 @@ paste("El coeficiente de determinación o Multiple R-squared: es igual al cuadra
 a <- modelo$coefficients[1]
 b <- modelo$coefficients[2]
 a ; b
+```
+
+### Medias de las variables
+
+```{r}
+mean(datos$comerciales)
+
+mean(datos$ventas)
 ```
 
 ### Gráfica de tendencia
@@ -463,6 +479,14 @@ paste("El coeficiente de determinación o Multiple R-squared: es igual al cuadra
 a <- modelo$coefficients[1]
 b <- modelo$coefficients[2]
 a ; b
+```
+
+### Medias de las variables
+
+```{r}
+mean(datos$solido)
+
+mean(datos$oxigeno)
 ```
 
 ### Gráfica de tendencia
@@ -607,12 +631,21 @@ b <- modelo$coefficients[2]
 a ; b
 ```
 
+### Medias de las variables
+
+```{r}
+mean(datos$estatura)
+
+mean(datos$peso)
+```
+
+
 ### Gráfica de tendencia
 
 ```{r}
 ggplot() + 
   geom_point(data = datos, aes(x = estatura, y = peso), colour='blue') +
-  geom_point(aes(x= mean(datos$esttura), y = mean(datos$peso)), col = 'green') +
+  geom_point(aes(x= mean(datos$estatura), y = mean(datos$peso)), col = 'green') +
   geom_line(aes( x = datos$estatura, y = predict(modelo, datos)), color = "red") +
   xlab("Estatura") + 
   ylab("Peso") + 
